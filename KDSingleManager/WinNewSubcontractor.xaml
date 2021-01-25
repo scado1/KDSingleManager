@@ -6,8 +6,11 @@
         mc:Ignorable="d"
         xmlns:z="clr-namespace:KDSingleManager.Models"
         xmlns:k="clr-namespace:KDSingleManager"
-        xmlns:ikriv="clr-namespace:System.Windows.Converters;assembly=WindowsBase"
+        xmlns:ikriv="clr-namespace:System.Windows.Converters;assembly=WindowsBase" Loaded="Window_Loaded"
         Title="WinNewSubcontractor" Height="450" Width="800">
+    <Window.Resources>
+        <CollectionViewSource x:Key="defZusViewSource"/>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15"/>
@@ -22,18 +25,31 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="15"/>
         </Grid.RowDefinitions>
-        <StackPanel MinWidth="150" MaxWidth="400" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+        <StackPanel MinWidth="150" MaxWidth="400" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Margin="0">
             <TextBlock>FirstName:</TextBlock>
             <TextBox x:Name="tb_FirstName"></TextBox>
             <TextBlock>LastName:</TextBlock>
             <TextBox x:Name="tb_LastName"></TextBox>
             <Button x:Name="btn_AddNewWorker" Click="btn_AddNewWorker_Click">Add New Worker</Button>
             <TextBlock x:Name="tb_Id" DataContext="{Binding Id}"></TextBlock>
+            <Button x:Name="seedZUS" Click="seedZUS_Click" Content="seed ZUS Data"/>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Grid.Row="2" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2">
+        <DataGrid x:Name="dg_DefSkladek" ItemsSource="{Binding Source={StaticResource defZusViewSource}}" Grid.Row="1" Grid.Column="2" Margin="10">
+        </DataGrid>
+        <ComboBox x:Name="cb_DefSkladek" Grid.Row="2" Grid.Column="2">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <DataGrid ItemsSource="{Binding Source={StaticResource defZusViewSource}}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <StackPanel Orientation="Vertical" Grid.Row="2" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="1">
             <TextBox Name="tb_Value" TextChanged="tb_Value_TextChanged"></TextBox>
             <Slider Name="mySlider" Maximum="100" Minimum="0" Margin="20"></Slider>
-            <TextBox Name="txtValue" Margin="20" Width="50" Height="30" Text="{Binding ElementName=mySlider, Path=Value, Mode=OneWay}"></TextBox>
+            <TextBox Name="txtValue" Margin="20" Width="50" Height="30" Text="{Binding ElementName=mySlider, Path=Value, Mode=OneWay}">
+            </TextBox>
             <TextBlock Name="tb_Value_Copy" Margin="20" Width="50" Height="30" />
             <!-- Text="{Binding ElementName=tb_Value, Path=Text, Mode=OneWay}" -->
         </StackPanel>

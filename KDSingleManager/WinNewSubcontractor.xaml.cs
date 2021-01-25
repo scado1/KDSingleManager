@@ -1,4 +1,5 @@
 ﻿using KDSingleManager.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,10 +21,15 @@ namespace KDSingleManager
     {
         private AppContext _context = MainWindow._context;
         private Subcontractor _subcontractor;
+        private CollectionViewSource defZusViewSource;
         public WinNewSubcontractor()
         {
             InitializeComponent();
-            this.DataContext = this;
+            //  this.DataContext = this;
+            defZusViewSource = (CollectionViewSource)FindResource(nameof(defZusViewSource));
+            _context.DefinicjeSkladek.Load();
+            defZusViewSource.Source = _context.DefinicjeSkladek.Local.ToObservableCollection();
+            dg_DefSkladek.ItemsSource = _context.DefinicjeSkladek.Local.ToBindingList();
         }
         public WinNewSubcontractor(Subcontractor s)
         {
@@ -63,6 +69,16 @@ namespace KDSingleManager
             {
                 tb_Value_Copy.Text = (d * 0.5m).ToString();
             }
+        }
+
+        private void seedZUS_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SeedDefSkladek();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

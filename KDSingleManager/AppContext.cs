@@ -10,6 +10,9 @@ namespace KDSingleManager
     {
         public DbSet<Subcontractor> Subcontractors { get; set; }
         public DbSet<ZUS> Zusy { get; set; }
+        public DbSet<DefSkladki> DefinicjeSkladek { get; set; }
+        public DbSet<Skladka> Skladki { get; set; }
+
         //    public DbSet<Tax> Taxy { get; set; }
 
         protected override void OnConfiguring(
