@@ -11,7 +11,7 @@ namespace KDSingleManager.Models
         public string Symbol { get; set; }
         public string Nazwa { get; set; }
         public int Year { get; set; }
-        public virtual Skladka Skladka { get; set; }
+        //public virtual Skladka Skladka { get; set; }
         public decimal ZUS51 { get; set; }
         public decimal ZUS52 { get; set; }
         public decimal ZUS53 { get; set; }

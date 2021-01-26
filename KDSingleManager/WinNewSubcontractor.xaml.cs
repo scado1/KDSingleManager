@@ -113,7 +113,7 @@ namespace KDSingleManager
                     _context.Subcontractors.Update(_subcontractor);
                     _context.SaveChanges();
 
-                    tb_FirstName.Text = tb_LastName.Text = string.Empty;
+                    //tb_FirstName.Text = tb_LastName.Text = string.Empty;
                 }
                 catch (Exception ex)
                 {

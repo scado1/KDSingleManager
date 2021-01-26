@@ -123,7 +123,7 @@ namespace KDSingleManager
             ISimpleZUS simpleZUS = new SimpleZUS();
             IZUS zUS = simpleZUS.AddZUS(s);
 
-            skl.DefSkladki = (DefSkladki)zUS;
+            skl.DefSkladka = (DefSkladki)zUS;
 
             s.ZUSy.Add(new Skladka());
         }

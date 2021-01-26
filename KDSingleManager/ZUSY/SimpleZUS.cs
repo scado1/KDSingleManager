@@ -67,7 +67,7 @@ namespace KDSingleManager.ZUSY
                 //MessageBox.Show($"OkresZUS > dMaly {OkresZUS > maly} {OkresZUS - maly}");
                 nazwa = "Mały";
             }
-            else if (OkresZUS > pref)
+            else if (OkresZUS >= pref)
             {
                 //MessageBox.Show($"OkresZUS > dDG {OkresZUS > pref} {OkresZUS - pref}");
                 nazwa = "Ulga";
