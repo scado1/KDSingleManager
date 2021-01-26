@@ -36,6 +36,7 @@
                     <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="auto"/>
                     <DataGridTextColumn Header="Imię" Binding="{Binding FirstName}" Width="auto"/>
                     <DataGridTextColumn Header="Nazwisko" Binding="{Binding LastName}" Width="auto"/>
+                    <DataGridTextColumn Header="Data DG" Binding="{Binding DataZalozenia}" Width="auto"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

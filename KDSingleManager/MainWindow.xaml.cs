@@ -72,7 +72,8 @@ namespace KDSingleManager
             defSkladki.Add(new DefSkladki()
             {
                 Symbol = "0510 2020",
-                Nazwa = "Duży 2020",
+                Nazwa = "Duży",
+                Year = 2020,
                 ZUS51 = 992.30m,
                 ZUS52 = 362.34m,
                 ZUS53 = 76.84m
@@ -80,7 +81,8 @@ namespace KDSingleManager
             defSkladki.Add(new DefSkladki()
             {
                 Symbol = "0540 2020",
-                Nazwa = "Preferencyjna 2020",
+                Nazwa = "Preferencyjna",
+                Year = 2020,
                 ZUS51 = 0m,
                 ZUS52 = 362.34m,
                 ZUS53 = 0m
@@ -88,12 +90,14 @@ namespace KDSingleManager
             defSkladki.Add(new DefSkladki()
             {
                 Symbol = "0570 2020",
-                Nazwa = "Duży 2020",
+                Nazwa = "Duży",
+                Year = 2020,
                 ZUS51 = 246.80m,
                 ZUS52 = 362.34m,
                 ZUS53 = 76.84m
             });
 
+            var x = _context.DefinicjeSkladek.Select(x => x.Nazwa == "mały");
             foreach (var item in defSkladki)
             {
                 _context.DefinicjeSkladek.Add(item);

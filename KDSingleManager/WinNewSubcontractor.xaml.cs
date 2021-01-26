@@ -30,6 +30,7 @@ namespace KDSingleManager
             _context.DefinicjeSkladek.Load();
             defZusViewSource.Source = _context.DefinicjeSkladek.Local.ToObservableCollection();
             dg_DefSkladek.ItemsSource = _context.DefinicjeSkladek.Local.ToBindingList();
+            CalcPrzejscia();
         }
         public WinNewSubcontractor(Subcontractor s)
         {
@@ -37,13 +38,14 @@ namespace KDSingleManager
             _subcontractor = s;
             tb_FirstName.Text = s.FirstName;
             tb_LastName.Text = s.LastName;
+            dp_Zalozenie.SelectedDate = DateTime.Parse(s.DataZalozenia);
         }
 
-        public int Convert(object value)
-        {
-            var r = int.Parse(tb_Value.Text);
-            return r * 2;
-        }
+        //public int Convert(object value)
+        //{
+        //    var r = int.Parse(tb_Value.Text);
+        //    return r * 2;
+        //}
 
         private void btn_AddNewWorker_Click(object sender, RoutedEventArgs e)
         {
@@ -52,24 +54,26 @@ namespace KDSingleManager
                 Subcontractor s = new Subcontractor()
                 {
                     FirstName = tb_FirstName.Text,
-                    LastName = tb_LastName.Text
+                    LastName = tb_LastName.Text,
+                    DataZalozenia = DateTime.Parse(dp_Zalozenie.SelectedDate.ToString()).ToShortDateString()
                 };
+
                 _context.Subcontractors.Add(s);
                 _context.SaveChanges();
                 tb_FirstName.Text = tb_LastName.Text = string.Empty;
             }
             //MainWindow._context.Subcontractors.
         }
-        private void tb_Value_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            decimal d;
-            bool c = decimal.TryParse(tb_Value.Text, out d);
+        //private void tb_Value_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    decimal d;
+        //    bool c = decimal.TryParse(tb_Value.Text, out d);
 
-            if (!string.IsNullOrWhiteSpace(tb_Value.Text) && c)
-            {
-                tb_Value_Copy.Text = (d * 0.5m).ToString();
-            }
-        }
+        //    if (!string.IsNullOrWhiteSpace(tb_Value.Text) && c)
+        //    {
+        //        tb_Value_Copy.Text = (d * 0.5m).ToString();
+        //    }
+        //}
 
         private void seedZUS_Click(object sender, RoutedEventArgs e)
         {
@@ -79,6 +83,22 @@ namespace KDSingleManager
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void dp_Zalozenie_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CalcPrzejscia();
+        }
+
+        private void CalcPrzejscia()
+        {
+            if (!String.IsNullOrWhiteSpace( dp_Zalozenie.SelectedDate.ToString()))
+            {
+                var x = dp_Zalozenie.SelectedDate;
+
+                dp_przejscieNaMaly.SelectedDate =  (DateTime.Parse(x.ToString()).Day != 1 ? (DateTime.Parse(x.ToString().ToString()).AddMonths(7)) : (DateTime.Parse(x.ToString().ToString()).AddMonths(6))) ;
+                dp_przejscieNaDuzy.SelectedDate = (DateTime.Parse(x.ToString()).AddMonths(30));
+            }
         }
     }
 }

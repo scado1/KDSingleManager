@@ -10,6 +10,7 @@ namespace KDSingleManager.Models
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string DataZalozenia { get; set; }
         public virtual ICollection<Skladka> ZUSy { get; set; } = new ObservableCollection<Skladka>();
     }
 }
