@@ -81,7 +81,7 @@ namespace KDSingleManager
             defSkladki.Add(new DefSkladki()
             {
                 Symbol = "0540 2020",
-                Nazwa = "Preferencyjna",
+                Nazwa = "Ulga",
                 Year = 2020,
                 ZUS51 = 0m,
                 ZUS52 = 362.34m,
@@ -90,7 +90,7 @@ namespace KDSingleManager
             defSkladki.Add(new DefSkladki()
             {
                 Symbol = "0570 2020",
-                Nazwa = "Duży",
+                Nazwa = "Mały",
                 Year = 2020,
                 ZUS51 = 246.80m,
                 ZUS52 = 362.34m,

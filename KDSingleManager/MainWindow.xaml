@@ -8,6 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
         <CollectionViewSource x:Key="subconViewSource"/>
+        <CollectionViewSource x:Key="przejscieViewSource" Source="{Binding Przejscia, Source={StaticResource subconViewSource}}"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -40,5 +41,12 @@
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
+        <DataGrid x:Name="dg_Przejscia" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2" Margin="10" EnableRowVirtualization="True"
+                  ItemsSource="{Binding Source={StaticResource przejscieViewSource}}" RowDetailsVisibilityMode="VisibleWhenSelected" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Mały" Binding="{Binding PrzejscieNaMaly}" ></DataGridTextColumn>
+                <DataGridTextColumn Header="Duży" Binding="{Binding PrzejscieNaDuzy}" ></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

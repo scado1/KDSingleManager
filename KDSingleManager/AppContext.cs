@@ -12,6 +12,8 @@ namespace KDSingleManager
         public DbSet<ZUS> Zusy { get; set; }
         public DbSet<DefSkladki> DefinicjeSkladek { get; set; }
         public DbSet<Skladka> Skladki { get; set; }
+        public DbSet<Przejscie> Przejscia { get; set; }
+
 
         //    public DbSet<Tax> Taxy { get; set; }
 
