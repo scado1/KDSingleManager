@@ -34,7 +34,7 @@ namespace KDSingleManager
             _context.DefinicjeSkladek.Load();
             defZusViewSource.Source = _context.DefinicjeSkladek.Local.ToObservableCollection();
             dg_DefSkladek.ItemsSource = _context.DefinicjeSkladek.Local.ToBindingList();
-            CalcPrzejscia();
+            //CalcPrzejscia();
 
         }
         public WinNewSubcontractor(Subcontractor s)
@@ -156,7 +156,7 @@ namespace KDSingleManager
 
         private void dp_Zalozenie_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            CalcPrzejscia();
+           // CalcPrzejscia();
         }
 
         private void CalcPrzejscia()

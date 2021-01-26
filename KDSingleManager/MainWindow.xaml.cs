@@ -1,4 +1,5 @@
 ﻿using KDSingleManager.Models;
+using KDSingleManager.ZUSY;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -102,7 +103,7 @@ namespace KDSingleManager
                 Year = 2020,
                 ZUS51 = 246.80m,
                 ZUS52 = 362.34m,
-                ZUS53 = 76.84m
+                ZUS53 = 0m
             });
 
             var x = _context.DefinicjeSkladek.Select(x => x.Nazwa == "mały");
@@ -111,6 +112,20 @@ namespace KDSingleManager
                 _context.DefinicjeSkladek.Add(item);
             }
             _context.SaveChanges();
+        }
+
+        private void btn_AddZus_Click(object sender, RoutedEventArgs e)
+        {
+            Subcontractor s = (Subcontractor)dg_SubconList.SelectedItem;
+
+            Skladka skl = new Skladka();
+            skl.Data = DateTime.Today.ToShortDateString();
+            ISimpleZUS simpleZUS = new SimpleZUS();
+            IZUS zUS = simpleZUS.AddZUS(s);
+
+            //skl.DefSkladki = (ICollection<DefSkladki>)zUS;
+
+            s.ZUSy.Add(new Skladka());
         }
 
         //private void dg_SubconList_SelectionChanged(object sender, SelectionChangedEventArgs e)

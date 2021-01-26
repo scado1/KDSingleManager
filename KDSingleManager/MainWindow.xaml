@@ -29,6 +29,7 @@
         <StackPanel Grid.Column="1" Grid.Row="1" Margin="10" Orientation="Vertical" OpacityMask="#FF174172" Background="#FFC9C7C7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Button x:Name="btn_OpenPage" Click="btn_OpenPage_Click" Content="Create Page"/>
             <Button x:Name="btn_Delete" Click="btn_Delete_Click" Content="Delete worker"/>
+            <Button x:Name="btn_AddZus" Click="btn_AddZus_Click" Content="Add ZUS Payment"/>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="2" Grid.RowSpan="2" Margin="5">
             <DataGrid x:Name="dg_SubconList" ItemsSource="{Binding Source={StaticResource subconViewSource}}" AutoGenerateColumns="False" MouseDoubleClick="dg_SubconList_MouseDoubleClick">
