@@ -55,12 +55,20 @@ namespace KDSingleManager
             wns.Show();
         }
 
+        /// <summary>
+        /// cascade delete for Subcontractors
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btn_Delete_Click(object sender, RoutedEventArgs e)
         {
             if (dg_SubconList.SelectedItem != null)
             {
                 Subcontractor w = (Subcontractor)dg_SubconList.SelectedItem;
+                List<Przejscie> przejscia = _context.Przejscia.Where(y => y.Subcontractor.Id == w.Id).ToList();
+                _context.RemoveRange(przejscia);
                 _context.Subcontractors.Remove(w);
+
                 _context.SaveChanges();
                 subconViewSource.Source = _context.Subcontractors.Local.ToObservableCollection();
             }
