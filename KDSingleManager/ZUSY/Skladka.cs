@@ -8,7 +8,7 @@ namespace KDSingleManager.Models
     public class Skladka
     {
         public int Id { get; set; }
-        public virtual ICollection<DefSkladki> DefSkladki { get; set; } = new ObservableCollection<DefSkladki>();
+        public virtual DefSkladki DefSkladki { get; set; }
         public int ZaOkresMonth { get; set; }
         public int ZaOkresYear { get; set; }
         public int Stan { get; set; }

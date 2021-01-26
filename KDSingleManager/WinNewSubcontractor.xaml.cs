@@ -156,7 +156,7 @@ namespace KDSingleManager
 
         private void dp_Zalozenie_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-           // CalcPrzejscia();
+            CalcPrzejscia();
         }
 
         private void CalcPrzejscia()
