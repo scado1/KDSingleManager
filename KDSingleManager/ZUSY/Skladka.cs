@@ -9,6 +9,7 @@ namespace KDSingleManager.Models
     {
         public int Id { get; set; }
         public virtual DefSkladki DefSkladka { get; set; }
+        public virtual Subcontractor Subcontractor { get; set; }
         public int ZaOkresMonth { get; set; }
         public int ZaOkresYear { get; set; }
         public int Stan { get; set; }

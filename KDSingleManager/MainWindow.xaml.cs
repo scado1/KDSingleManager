@@ -116,18 +116,33 @@ namespace KDSingleManager
 
         private void btn_AddZus_Click(object sender, RoutedEventArgs e)
         {
+            AddZus();
+        }
+
+        private void AddZus()
+        {
+            DateTime today = DateTime.Now;
             Subcontractor s = (Subcontractor)dg_SubconList.SelectedItem;
 
             Skladka skl = new Skladka();
-            skl.Data = DateTime.Today.ToShortDateString();
+            skl.Data = today.ToShortDateString();
+            skl.ZaOkresYear = today.Year;
+            skl.ZaOkresMonth = today.Month;
             ISimpleZUS simpleZUS = new SimpleZUS();
             IZUS zUS = simpleZUS.AddZUS(s);
 
             skl.DefSkladka = (DefSkladki)zUS;
-
-            s.ZUSy.Add(new Skladka());
+            skl.Wartość = skl.DefSkladka.GetWartosc();
+            skl.Subcontractor = s;
+            //s.ZUSy.Add(skl);
+            _context.Skladki.Add(skl);
+            _context.SaveChanges();
         }
 
+        private void btn_mi_OpenZusList_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("click");
+        }
         //private void dg_SubconList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
         //    var x = (Subcontractor)dg_SubconList.SelectedItem;

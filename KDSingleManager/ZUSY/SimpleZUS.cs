@@ -41,15 +41,15 @@ namespace KDSingleManager.ZUSY
         public override IZUS AddZUS(Subcontractor s)
         {
             IZUS intendedZUS = null;
-
-
             //Should recieve data from ...?
             DateTime OkresZUS = DateTime.Parse("2020-10-10");
 
             DateTime pref = Convert(s.DataZalozenia);
-            DateTime maly = Convert(s.Przejscia.Select(x => x.PrzejscieNaMaly).FirstOrDefault().ToString());
+            DateTime maly, duzy;
+
+            maly = Convert(s.Przejscia.Select(x => x.PrzejscieNaMaly).FirstOrDefault().ToString());
             //DateTime.Parse(s.Przejscia.Select(x => x.PrzejscieNaMaly).FirstOrDefault().ToString());
-            DateTime duzy = Convert(s.Przejscia.Select(x => x.PrzejscieNaDuzy).FirstOrDefault().ToString());
+            duzy = Convert(s.Przejscia.Select(x => x.PrzejscieNaDuzy).FirstOrDefault().ToString());
             //DateTime.Parse(s.Przejscia.Select(x => x.PrzejscieNaDuzy).FirstOrDefault().ToString());
 
             string nazwa = string.Empty;
@@ -81,7 +81,7 @@ namespace KDSingleManager.ZUSY
 
             MessageBox.Show(string.Format($"{intendedZUS.GetWartosc()} {intendedZUS.GetNazwa()}"));
             return intendedZUS;
-
         }
+
     }
 }
