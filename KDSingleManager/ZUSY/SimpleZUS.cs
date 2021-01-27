@@ -57,24 +57,24 @@ namespace KDSingleManager.ZUSY
             var x = ((OkresZUS.Year - pref.Year) * 12) + OkresZUS.Month - pref.Month;
 
 
-            if (OkresZUS > duzy)
+            if (OkresZUS > duzy || (OkresZUS.Year == duzy.Year && OkresZUS.Month == duzy.Month))
             {
                 //MessageBox.Show($"OkresZUS > duzy {OkresZUS > duzy} {OkresZUS - duzy}");
                 nazwa = "Duży";
             }
-            else if (OkresZUS > maly)
+            else if (OkresZUS > maly || (OkresZUS.Year == maly.Year && OkresZUS.Month == maly.Month))
             {
                 //MessageBox.Show($"OkresZUS > dMaly {OkresZUS > maly} {OkresZUS - maly}");
                 nazwa = "Mały";
             }
-            else if (OkresZUS >= pref)
+            else if (OkresZUS >= pref || (OkresZUS.Year == pref.Year && OkresZUS.Month == pref.Month))
             {
                 //MessageBox.Show($"OkresZUS > dDG {OkresZUS > pref} {OkresZUS - pref}");
                 nazwa = "Ulga";
             }
             else
             {
-                throw new Exception();
+                throw new Exception("Data DG > Data ZUS");
             }
 
             intendedZUS = _context.DefinicjeSkladek.Where(x => x.Nazwa == nazwa && x.Year == OkresZUS.Year).FirstOrDefault();
