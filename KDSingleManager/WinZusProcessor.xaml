@@ -7,8 +7,30 @@
         xmlns:Main="clr-namespace:KDSingleManager"
         mc:Ignorable="d"
         Title="WinZusProcessor" Height="450" Width="600">
-    <Window.Resources>
-        <Main:MonthConverter x:Key="MonthConverter"/>
-    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="15"/>
+            <ColumnDefinition Width="89*"/>
+            <ColumnDefinition Width="160*"/>
+            <ColumnDefinition Width="178*"/>
+            <ColumnDefinition Width="143*"/>
+            <ColumnDefinition Width="15"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="15"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="16" Width="42">Miesiąc:</TextBlock>
+        <ComboBox x:Name="cb_Months" Grid.Row="1" Grid.Column="2" Margin="2"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="16" Width="22">Rok:</TextBlock>
+        <ComboBox x:Name="cb_Years" Grid.Row="2" Grid.Column="2" Margin="2"/>
 
+        <Button x:Name="btn_ProcessZUS" Click="btn_ProcessZUS_Click" Grid.Row="6" Grid.Column="2">Process</Button>
+    </Grid>
 </Window>

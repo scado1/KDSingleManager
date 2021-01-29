@@ -1,6 +1,9 @@
-﻿using System;
+﻿using CsvHelper;
+using KDSingleManager.Models;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -19,54 +22,108 @@ namespace KDSingleManager
     /// </summary>
     public partial class WinZusProcessor : Window
     {
-        public static readonly DependencyProperty MonthsProperty = DependencyProperty.Register(
-        "Months",
-        typeof(List<string>),
-        typeof(MainWindow),
-        new PropertyMetadata(new CultureInfo("pl-PL").DateTimeFormat.MonthNames.Take(12).ToList()));
+        AppContext _context;
 
-        public List<string> Months
-        {
-            get
-            {
-                return (List<string>)this.GetValue(MonthsProperty);
-            }
-
-            set
-            {
-                this.SetValue(MonthsProperty, value);
-            }
-        }
         public WinZusProcessor()
         {
             InitializeComponent();
+            _context = MainWindow._context;
+            GetMonthsYears();
         }
-    }
 
-    [ValueConversion(typeof(List<string>), typeof(List<string>))]
-    public class MonthConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        private void GetMonthsYears()
         {
-            //get the list of months from the object sent in    
-            List<string> months = (List<string>)value;
-
-            //manipulate the data index starts at 0 so add 1 and set to 2 decimal places
-            if (months != null && months.Count > 0)
+            for (int i = 2018; i < DateTime.Now.Year + 2; i++)
             {
-                for (int x = 0; x < months.Count; x++)
-                {
-                    months[x] = (x + 1).ToString("D2") + " - " + months[x];
-                }
+                var y = new ComboBoxItem();
+                y.Content = i;
+                cb_Years.Items.Add(y);
             }
 
-            return months;
+            for (int i = 1; i < 13; i++)
+            {
+                var m = new ComboBoxItem();
+                m.Content = i.ToString("D2");
+                cb_Months.Items.Add(m);
+            }
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        private void btn_ProcessZUS_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            MessageBox.Show(cb_Months.Text);
+            GenerateZus();
         }
 
+        private void GenerateZus()
+        {
+            List<Skladka> skladki = new List<Skladka>();
+
+            string filePath = @"C:\Users\Horsh\Desktop\Kek\KD Building\Manager\ZUS11.CSV";
+            List<Subcontractor> records = new List<Subcontractor>();
+            using (var reader = new StreamReader(filePath))
+            {
+                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                {
+                    csv.Configuration.Delimiter = ";";
+                    csv.Configuration.PrepareHeaderForMatch = (h, i) => Regex.Replace(h, @"\s", string.Empty);
+                    csv.Read();
+                    csv.ReadHeader();
+                    while (csv.Read())
+                    {
+                        var record = new Subcontractor
+                        {
+                            LastName = csv.GetField("Surname"),
+                            FirstName = csv.GetField("Name"),
+                            NIP = csv.GetField("NIP")
+                        };
+                        records.Add(record);
+                    }
+                }
+            }
+            foreach (var rec in records)
+            {
+                try
+                {
+                    var sc = _context.Subcontractors.Local.ToObservableCollection()
+                        .Where(x => x.NIP == rec.NIP ||
+                        (Normalize(x.FirstName.ToLower()).Contains(Normalize(rec.FirstName.ToLower()))
+                    && Normalize(x.LastName.ToLower()).Contains(Normalize(rec.LastName.ToLower())))).First();
+                    sc.Zusy.Add(new ZUS().AddSkladka());
+                    _context.SaveChanges();
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(string.Format($"{ex.ToString()} - {rec.FirstName} {rec.LastName}"));
+                }
+            }
+        }
+        private static IEnumerable<Subcontractor> FindCollection(Subcontractor dbSubc, Subcontractor docSubc, out IEnumerable<Subcontractor> res)
+        {
+            res = new List<Subcontractor>()
+                .Where(x => x.FirstName.Contains(docSubc.FirstName)).ToList();
+
+            return res;
+        }
+
+        /// <summary>
+        /// Remove Accents/Diacritics from a String
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        private string Normalize(string text)
+        {
+            var x = text.Replace(" ", "").Replace("ł", "l").Normalize(NormalizationForm.FormD);
+            string res = string.Empty;
+            foreach (var c in x)
+            {
+                var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+                if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+                {
+                    res += (c);
+                }
+            }
+            return res;
+        }
     }
 }

@@ -21,14 +21,14 @@ namespace KDSingleManager
     /// </summary>
     public partial class WinNewSubcontractor : Window
     {
-        private AppContext _context = MainWindow._context;
+        private AppContext _context;
         private Subcontractor _subcontractor;
         private CollectionViewSource defZusViewSource;
         private CollectionViewSource subconViewSource;
         public WinNewSubcontractor()
         {
             InitializeComponent();
-            //  this.DataContext = this;
+            _context = MainWindow._context;
             subconViewSource = (CollectionViewSource)FindResource(nameof(subconViewSource));
             defZusViewSource = (CollectionViewSource)FindResource(nameof(defZusViewSource));
             _context.DefinicjeSkladek.Load();
@@ -40,6 +40,7 @@ namespace KDSingleManager
         public WinNewSubcontractor(Subcontractor s)
         {
             InitializeComponent();
+            _context = MainWindow._context;
             btn_AddNewWorker.Content = "Update Worker";
             subconViewSource = (CollectionViewSource)FindResource(nameof(subconViewSource));
             _subcontractor = s;
@@ -77,7 +78,9 @@ namespace KDSingleManager
                     };
                     _context.Subcontractors.Add(s);
                     _context.SaveChanges();
-                    tb_FirstName.Text = tb_LastName.Text = string.Empty;
+
+                    _subcontractor = s;
+                    MessageBox.Show($"{s.FullName} was created successfuly");
                 }
                 catch (Exception ex)
                 {
@@ -113,6 +116,7 @@ namespace KDSingleManager
                     _context.Subcontractors.Update(_subcontractor);
                     _context.SaveChanges();
 
+                    MessageBox.Show($"{_subcontractor.FullName} was updated successfuly");
                     //tb_FirstName.Text = tb_LastName.Text = string.Empty;
                 }
                 catch (Exception ex)

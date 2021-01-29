@@ -14,5 +14,7 @@ namespace KDSingleManager.Models
         //  public virtual ICollection<Skladka> ZUSy { get; set; } = new ObservableCollection<Skladka>();
         public virtual ICollection<Przejscie> Przejscia { get; set; } = new ObservableCollection<Przejscie>();
         public virtual ICollection<Skladka> Skladki { get; set; } = new ObservableCollection<Skladka>();
+
+        public string FullName => string.Format($"{FirstName} {LastName}");
     }
 }

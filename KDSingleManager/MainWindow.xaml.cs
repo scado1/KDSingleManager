@@ -141,7 +141,8 @@ namespace KDSingleManager
 
         private void btn_mi_OpenZusList_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("click");
+            WinZusProcessor wzp = new WinZusProcessor();
+            wzp.Show();
         }
         //private void dg_SubconList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
