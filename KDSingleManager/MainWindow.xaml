@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KDSingleManager"
         mc:Ignorable="d" Loaded="Window_Loaded" Closed="Window_Closed"
-        Title="MainWindow" Height="600" Width="900" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="600" Width="900" WindowStartupLocation="CenterOwner">
     <Window.Resources>
         <CollectionViewSource x:Key="subconViewSource"/>
         <CollectionViewSource x:Key="przejscieViewSource" Source="{Binding Przejscia, Source={StaticResource subconViewSource}}"/>
@@ -57,7 +57,8 @@
                     <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*"/>
                     <DataGridTextColumn Header="Imię" Binding="{Binding FirstName}" Width="2*"/>
                     <DataGridTextColumn Header="Nazwisko" Binding="{Binding LastName}" Width="2*"/>
-                    <DataGridTextColumn Header="Data DG" Binding="{Binding DataZalozenia}" Width="3*"/>
+                    <DataGridTextColumn Header="NIP" Binding="{Binding NIP}" Width="auto"/>
+                    <DataGridTextColumn Header="Data DG" Binding="{Binding DataZalozenia}" Width="auto"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

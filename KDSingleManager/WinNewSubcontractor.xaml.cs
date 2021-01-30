@@ -54,7 +54,8 @@ namespace KDSingleManager
         #region Button Create/Update
         private void btn_AddNewWorker_Click(object sender, RoutedEventArgs e)
         {
-            if (_subcontractor != null)
+            if ( this._subcontractor.Id.ToString() != null && _context.Subcontractors.Any(x => x.Id == _subcontractor.Id))
+            //if (_subcontractor != null)
             {
                 UpdateSubcontractor();
             }
@@ -74,6 +75,7 @@ namespace KDSingleManager
                     {
                         FirstName = tb_FirstName.Text,
                         LastName = tb_LastName.Text,
+                        NIP = tb_NIP.Text,
                         DataZalozenia = DateTime.Parse(dp_Zalozenie.SelectedDate.ToString()).ToShortDateString()
                     };
                     _context.Subcontractors.Add(s);
@@ -101,7 +103,7 @@ namespace KDSingleManager
                         _subcontractor.FirstName = tb_FirstName.Text;
                         _subcontractor.LastName = tb_LastName.Text;
                         _subcontractor.DataZalozenia = DateTime.Parse(dp_Zalozenie.SelectedDate.ToString()).ToShortDateString();
-
+                        _subcontractor.NIP = tb_NIP.Text;
                         _subcontractor.Przejscia = new List<Przejscie>();
 
 
@@ -202,6 +204,14 @@ namespace KDSingleManager
                 MessageBox.Show(ex.ToString());
             }
 
+        }
+
+        private void tb_NIP_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tb_NIP.Text.Length != 9)
+            {
+                tb_NIP.SelectionBrush = tb_NIP.BorderBrush = Brushes.Red;
+            }
         }
     }
 }

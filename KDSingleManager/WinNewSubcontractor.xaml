@@ -32,6 +32,8 @@
             <TextBox x:Name="tb_LastName"></TextBox>
             <TextBlock>Data założenia:</TextBlock>
             <DatePicker x:Name="dp_Zalozenie" SelectedDateChanged="dp_Zalozenie_SelectedDateChanged"></DatePicker>
+            <TextBlock>Numer NIP:</TextBlock>
+            <TextBox x:Name="tb_NIP" TextChanged="tb_NIP_TextChanged" />
 
             <Button x:Name="btn_AddNewWorker" Click="btn_AddNewWorker_Click">Add New Worker</Button>
             <TextBlock x:Name="tb_Id" DataContext="{Binding Id}"></TextBlock>
