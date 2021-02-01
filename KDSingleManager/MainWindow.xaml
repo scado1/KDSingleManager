@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KDSingleManager"
         mc:Ignorable="d" Loaded="Window_Loaded" Closed="Window_Closed"
-        Title="MainWindow" Height="600" Width="900" WindowStartupLocation="CenterOwner">
+        Title="MainWindow" Height="600" Width="900" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <CollectionViewSource x:Key="subconViewSource"/>
         <CollectionViewSource x:Key="przejscieViewSource" Source="{Binding Przejscia, Source={StaticResource subconViewSource}}"/>

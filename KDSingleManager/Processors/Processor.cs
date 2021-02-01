@@ -13,7 +13,7 @@ namespace KDSingleManager.Processors
         private AppContext _context;
         public void AddZus(Subcontractor s)
         {
-            // _context = MainWindow._context;
+            _context = MainWindow._context;
             DateTime today = DateTime.Now;
             Subcontractor _subccontractor = s;
 
@@ -29,8 +29,8 @@ namespace KDSingleManager.Processors
             skl.Subcontractor = s;
             //s.ZUSy.Add(skl);
 
-            MainWindow._context.Skladki.Add(skl);
-            MainWindow._context.SaveChanges();
+            _context.Skladki.Add(skl);
+            _context.SaveChanges();
         }
     }
 }

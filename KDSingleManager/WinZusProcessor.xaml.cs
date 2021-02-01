@@ -28,8 +28,14 @@ namespace KDSingleManager
     {
         AppContext _context;
 
+        List<string[]> dataFile = new List<string[]>();
+
+        WinNewSubcontractor wns = new WinNewSubcontractor();
+
         List<Subcontractor> subcontractors = new List<Subcontractor>();
         Dictionary<int, string> dataZUS = new Dictionary<int, string>();
+
+        List<(int, string)> tDataZus = new List<(int, string)>();
         public WinZusProcessor()
         {
             InitializeComponent();
@@ -62,14 +68,14 @@ namespace KDSingleManager
 
         private void CheckExistanceFromList()
         {
-            //string fp = @"C:\Users\dbasa\Desktop\ZUS\ZUSdoZap1.csv";
-            string fp = @"C:\Users\Horsh\Desktop\Kek\KD Building\ZUS\ZUS_test\ZUS_01_short.csv";
+            string fp = @"C:\Users\dbasa\Desktop\ZUS\ZUSdoZap1.csv";
+            //string fp = @"C:\Users\Horsh\Desktop\Kek\KD Building\ZUS\ZUS_test\ZUS_01_short.csv";
 
             List<string> recs = new List<string>();
 
             //Read file and split
             string content = System.IO.File.ReadAllText(fp);
-            var records = content.Replace(" ", "").Replace(".", "").Split("\r\n")
+            dataFile = content.Replace(" ", "").Replace(".", "").Split("\r\n")
                  .Skip(1)
                  .Select(x => x.Split(";"))
                  .ToList();
@@ -81,7 +87,7 @@ namespace KDSingleManager
             List<Subcontractor> _subcontractors = _context.Subcontractors.ToList();
 
 
-            foreach (var item in records)
+            foreach (var item in dataFile)
             {
                 var exists = _subcontractors.Any(x => x.NIP == item[3] ||
                         ((Normalize(x.FirstName.ToLower()).ToString().Contains(Normalize(item[2].ToLower()).ToString()) || Normalize(x.LastName.ToLower()).ToString().Contains(Normalize(item[2].ToLower()).ToString()))
@@ -114,7 +120,8 @@ namespace KDSingleManager
                             DataZalozenia = DateTime.Now.ToString()
                         };
 
-                        WinNewSubcontractor wns = new WinNewSubcontractor((Subcontractor)s);
+                        //WinNewSubcontractor wns = new WinNewSubcontractor((Subcontractor)s);
+                        Monitor.TryEnter(wns);
                         wns.Show();
 
                         //Thread thread = new Thread(CreateSubcontractor);
@@ -133,6 +140,11 @@ namespace KDSingleManager
 
 
             //  System.IO.File.WriteAllText(fp.Replace("doZap1.csv", "converted1.csv"), records);
+        }
+
+        private void OnClick()
+        {
+
         }
 
         private void CreateSubcontractor(object s)
@@ -219,7 +231,10 @@ namespace KDSingleManager
 
         private void btn_GenerateZUS_Click(object sender, RoutedEventArgs e)
         {
-            string fp = @"C:\Users\Horsh\Desktop\Kek\KD Building\ZUS\ZUS_test\ZUS_01_short.csv";
+            // string fp = @"C:\Users\Horsh\Desktop\Kek\KD Building\ZUS\ZUS_test\ZUS_01_short.csv";
+            // string fp = @"C:\Users\Horsh\Desktop\Kek\KD Building\ZUS\ZUS_test\ZUS_01_short.csv";
+            string fp = @"C:\Users\dbasa\Desktop\ZUS\ZUSdoZap1.csv";
+
 
             List<string> recs = new List<string>();
             string content = System.IO.File.ReadAllText(fp);
@@ -234,41 +249,45 @@ namespace KDSingleManager
                  .Select(x => x.Split(";"))
                  .ToList();
 
+            Processor proc = new Processor();
+
+
             subcontractors.ForEach(s => MessageBox.Show(s.FullName));
-            subcontractors.ForEach(s => AddZus(s));
+            subcontractors.ForEach(s => proc.AddZus(s));
 
         }
 
-        private void AddZus(Subcontractor s)
-        {
-            try
-            {
-                DateTime today = DateTime.Now;
+        //private void AddZus(Subcontractor s)
+        //{
+        //    try
+        //    {
+        //        DateTime today = DateTime.Now;
 
-                Skladka skl = new Skladka();
-                skl.Data = today.ToShortDateString();
-                skl.ZaOkresYear = int.Parse(cb_Years.Text);
-                skl.ZaOkresMonth = int.Parse(cb_Months.Text);
-                skl.Data = DateTime.Now.ToString();
+        //        Skladka skl = new Skladka();
+        //        skl.Data = today.ToShortDateString();
+        //        skl.ZaOkresYear = int.Parse(cb_Years.Text);
+        //        skl.ZaOkresMonth = int.Parse(cb_Months.Text);
+        //        skl.Data = DateTime.Now.ToString();
 
-                skl.Opis = dataZUS.Where(x => x.Key == s.Id).Select(x => x.Value).FirstOrDefault();
-                skl.Stan = String.IsNullOrEmpty(skl.Opis) ? 1 : 0;
+        //        skl.Opis = dataZUS.Where(x => x.Key == s.Id).Select(x => x.Value).FirstOrDefault();
+        //        skl.Stan = String.IsNullOrEmpty(skl.Opis) ? 1 : 0;
 
-                ISimpleZUS simpleZUS = new SimpleZUS();
-                IZUS zUS = simpleZUS.AddZUS(s);
+        //        ISimpleZUS simpleZUS = new SimpleZUS();
+        //        IZUS zUS = Processor.AddZus(s);
+        //        //simpleZUS.AddZUS(s);
 
-                skl.DefSkladka = (DefSkladki)zUS;
-                skl.Wartość = skl.DefSkladka.GetWartosc();
-                skl.Subcontractor = s;
-                //s.ZUSy.Add(skl);
+        //        skl.DefSkladka = (DefSkladki)zUS;
+        //        skl.Wartość = skl.DefSkladka.GetWartosc();
+        //        skl.Subcontractor = s;
+        //        //s.ZUSy.Add(skl);
 
-                _context.Skladki.Add(skl);
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(string.Format($"{ex.ToString()} \n {ex.InnerException}"));
-            }
-        }
+        //        _context.Skladki.Add(skl);
+        //        _context.SaveChanges();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(string.Format($"{ex.ToString()} \n {ex.InnerException}"));
+        //    }
+        //}
     }
 }
