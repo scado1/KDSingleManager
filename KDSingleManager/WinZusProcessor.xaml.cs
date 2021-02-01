@@ -249,10 +249,10 @@ namespace KDSingleManager
                 skl.Data = today.ToShortDateString();
                 skl.ZaOkresYear = int.Parse(cb_Years.Text);
                 skl.ZaOkresMonth = int.Parse(cb_Months.Text);
-                skl.Stan = 1;
                 skl.Data = DateTime.Now.ToString();
 
                 skl.Opis = dataZUS.Where(x => x.Key == s.Id).Select(x => x.Value).FirstOrDefault();
+                skl.Stan = String.IsNullOrEmpty(skl.Opis) ? 1 : 0;
 
                 ISimpleZUS simpleZUS = new SimpleZUS();
                 IZUS zUS = simpleZUS.AddZUS(s);
