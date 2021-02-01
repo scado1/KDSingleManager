@@ -119,7 +119,7 @@ namespace KDSingleManager
             AddZus();
         }
 
-        private void AddZus()
+        public void AddZus()
         {
             DateTime today = DateTime.Now;
             Subcontractor s = (Subcontractor)dg_SubconList.SelectedItem;

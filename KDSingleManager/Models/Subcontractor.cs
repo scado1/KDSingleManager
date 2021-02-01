@@ -18,4 +18,6 @@ namespace KDSingleManager.Models
 
         public string FullName => string.Format($"{FirstName} {LastName}");
     }
+
+
 }

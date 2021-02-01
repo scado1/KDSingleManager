@@ -77,6 +77,7 @@
                 <DataGridTextColumn Header="Mieisąc" Binding="{Binding ZaOkresMonth}"/>
                 <DataGridTextColumn Header="Rok" Binding="{Binding ZaOkresYear}"/>
                 <DataGridTextColumn Header="Data" Binding="{Binding Data}"/>
+                <DataGridTextColumn Header="Data" Binding="{Binding Opis}"/>
                 <DataGridTextColumn Header="Kwota" Binding="{Binding Wartość}"/>
             </DataGrid.Columns>
         </DataGrid>
