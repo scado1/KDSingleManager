@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="WinNewInvoice" Height="450" Width="800">
     <Grid>
-        
+        <DatePicker x:Name="dp_InvoceDate" Margin="21,22,652,354" SelectedDateChanged="dp_InvoceDate_SelectedDateChanged"/>
+        <TextBlock x:Name="tb_ExRate" Width="300" Margin="21,112,479,262" Background="#FFAC7575" OpacityMask="#FF0F0F0F"/>
+        <TextBlock x:Name="tb_ExRate_date" Width="300" Margin="21,227,479,147" Background="#FFAC7575" OpacityMask="#FF0F0F0F"/>
+
+
     </Grid>
 </Window>

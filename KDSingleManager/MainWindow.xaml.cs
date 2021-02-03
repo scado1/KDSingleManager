@@ -144,6 +144,12 @@ namespace KDSingleManager
             WinZusProcessor wzp = new WinZusProcessor();
             wzp.Show();
         }
+
+        private void NewInvoice_Click(object sender, RoutedEventArgs e)
+        {
+            WinNewInvoice wni = new WinNewInvoice();
+            wni.ShowDialog();
+        }
         //private void dg_SubconList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
         //    var x = (Subcontractor)dg_SubconList.SelectedItem;

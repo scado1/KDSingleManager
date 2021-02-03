@@ -49,13 +49,15 @@ namespace KDSingleManager
             dp_Zalozenie.SelectedDate = DateTime.Parse(s.DataZalozenia);
 
             //  subconViewSource.Source = _context.Subcontractors.Local.Where(x => x.Id == s.Id).ToList();
+
         }
 
         #region Button Create/Update
         private void btn_AddNewWorker_Click(object sender, RoutedEventArgs e)
         {
             //TODO
-            if ( this._subcontractor.Id.ToString() != null && _context.Subcontractors.Any(x => x.Id == _subcontractor.Id))
+            if (_subcontractor != null && _context.Subcontractors.Any(x => x.Id == _subcontractor.Id))
+            //if (this._subcontractor.Id.ToString() != null && _context.Subcontractors.Any(x => x.Id == _subcontractor.Id))
             //if (_subcontractor != null)
             {
                 UpdateSubcontractor();

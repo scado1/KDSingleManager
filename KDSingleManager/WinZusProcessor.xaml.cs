@@ -1,5 +1,4 @@
-﻿using CsvHelper;
-using KDSingleManager.Models;
+﻿using KDSingleManager.Models;
 using KDSingleManager.Processors;
 using KDSingleManager.ZUSY;
 using System;
@@ -30,7 +29,7 @@ namespace KDSingleManager
 
         List<string[]> dataFile = new List<string[]>();
 
-        WinNewSubcontractor wns = new WinNewSubcontractor();
+
 
         List<Subcontractor> subcontractors = new List<Subcontractor>();
         Dictionary<int, string> dataZUS = new Dictionary<int, string>();
@@ -91,6 +90,7 @@ namespace KDSingleManager
 
             foreach (var item in dataFile)
             {
+                dataZUS = new Dictionary<int, string>();
                 var exists = _subcontractors.Any(x => x.NIP == item[3] ||
                         ((Normalize(x.FirstName.ToLower()).ToString().Contains(Normalize(item[2].ToLower()).ToString()) || Normalize(x.LastName.ToLower()).ToString().Contains(Normalize(item[2].ToLower()).ToString()))
                         && (Normalize(x.FirstName.ToLower()).ToString().Contains(Normalize(item[1].ToLower()).ToString()) || Normalize(x.LastName.ToLower()).Contains(Normalize(item[1].ToLower())))));
@@ -123,8 +123,15 @@ namespace KDSingleManager
                         };
 
                         //WinNewSubcontractor wns = new WinNewSubcontractor((Subcontractor)s);
-                    //    Monitor.TryEnter(wns);
+                        //    Monitor.TryEnter(wns);
+                        WinNewSubcontractor wns = new WinNewSubcontractor(s);
                         wns.ShowDialog();
+
+                        Thread.Sleep(10);
+                        MessageBox.Show($"{s.FirstName}: {_context.Subcontractors.Any(x => x.NIP == s.NIP)}");
+                        //s = _context.Subcontractors.Single(x => x.NIP == s.NIP);
+
+                        subcontractors.Add(s);
 
                         //Thread thread = new Thread(CreateSubcontractor);
 
