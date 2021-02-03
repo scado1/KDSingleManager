@@ -68,7 +68,9 @@ namespace KDSingleManager
 
         private void CheckExistanceFromList()
         {
-            string fp = @"C:\Users\dbasa\Desktop\ZUS\ZUSdoZap1.csv";
+            string fp = Environment.MachineName.ToLower() == "horsh-w10-11" ? @"C:\Users\Horsh\Desktop\Kek\KD Building\ZUS\ZUS_test\ZUS_01_short.csv" : @"C:\Users\dbasa\Desktop\ZUS\ZUSdoZap1.csv";
+
+            //string fp = @"C:\Users\dbasa\Desktop\ZUS\ZUSdoZap1.csv";
             //string fp = @"C:\Users\Horsh\Desktop\Kek\KD Building\ZUS\ZUS_test\ZUS_01_short.csv";
 
             List<string> recs = new List<string>();
@@ -121,8 +123,8 @@ namespace KDSingleManager
                         };
 
                         //WinNewSubcontractor wns = new WinNewSubcontractor((Subcontractor)s);
-                        Monitor.TryEnter(wns);
-                        wns.Show();
+                    //    Monitor.TryEnter(wns);
+                        wns.ShowDialog();
 
                         //Thread thread = new Thread(CreateSubcontractor);
 
