@@ -75,7 +75,7 @@ namespace KDSingleManager
             List<string> recs = new List<string>();
 
             //Read file and split
-            string content = System.IO.File.ReadAllText(fp);
+            string content = System.IO.File.ReadAllText(fp,CodePagesEncodingProvider.Instance.GetEncoding(1250));
             dataFile = content.Replace(" ", "").Replace(".", "").Split("\r\n")
                  .Skip(1)
                  .Select(x => x.Split(";"))
@@ -127,7 +127,7 @@ namespace KDSingleManager
                         WinNewSubcontractor wns = new WinNewSubcontractor(s);
                         wns.ShowDialog();
 
-                        Thread.Sleep(10);
+                      //  Thread.Sleep(10);
                         MessageBox.Show($"{s.FirstName}: {_context.Subcontractors.Any(x => x.NIP == s.NIP)}");
                         //s = _context.Subcontractors.Single(x => x.NIP == s.NIP);
 

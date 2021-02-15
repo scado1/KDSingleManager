@@ -13,6 +13,7 @@ namespace KDSingleManager
         public DbSet<DefSkladki> DefinicjeSkladek { get; set; }
         public DbSet<Skladka> Skladki { get; set; }
         public DbSet<Przejscie> Przejscia { get; set; }
+        public DbSet<ESkladka> ESkladki { get; set; }
 
         protected override void OnConfiguring(
             DbContextOptionsBuilder optionsBuilder)

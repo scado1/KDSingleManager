@@ -34,6 +34,7 @@ namespace KDSingleManager
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _context.Database.EnsureCreated();
+
             _context.Subcontractors.Load();
             _context.SaveChanges();
             subconViewSource.Source = _context.Subcontractors.Local.ToObservableCollection();
@@ -78,6 +79,7 @@ namespace KDSingleManager
         public static void SeedDefSkladek()
         {
             List<DefSkladki> defSkladki = new List<DefSkladki>();
+            // ZUS 2020
             defSkladki.Add(new DefSkladki()
             {
                 Symbol = "0510 2020",
@@ -103,6 +105,34 @@ namespace KDSingleManager
                 Year = 2020,
                 ZUS51 = 246.80m,
                 ZUS52 = 362.34m,
+                ZUS53 = 0m
+            });
+            // ZUS 2021
+            defSkladki.Add(new DefSkladki()
+            {
+                Symbol = "0510 2021",
+                Nazwa = "Duży",
+                Year = 2021,
+                ZUS51 = 998.37m,
+                ZUS52 = 381.81m,
+                ZUS53 = 77.31m
+            });
+            defSkladki.Add(new DefSkladki()
+            {
+                Symbol = "0540 2021",
+                Nazwa = "Ulga",
+                Year = 2021,
+                ZUS51 = 0m,
+                ZUS52 = 381.81m,
+                ZUS53 = 0m
+            });
+            defSkladki.Add(new DefSkladki()
+            {
+                Symbol = "0570 2021",
+                Nazwa = "Mały",
+                Year = 2021,
+                ZUS51 = 265.78m,
+                ZUS52 = 381.81m,
                 ZUS53 = 0m
             });
 
@@ -147,14 +177,25 @@ namespace KDSingleManager
 
         private void NewInvoice_Click(object sender, RoutedEventArgs e)
         {
-            WinNewInvoice wni = new WinNewInvoice();
-            wni.ShowDialog();
+            try
+            {
+                var chosen = (Subcontractor)dg_SubconList.SelectedItem;
+
+                WinNewInvoice wni = new WinNewInvoice(chosen);
+                wni.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString() + "\n" + ex.InnerException);
+            }
         }
-        //private void dg_SubconList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    var x = (Subcontractor)dg_SubconList.SelectedItem;
-        //    MessageBox.Show(x.FirstName + " " + x.LastName);
-        //}
 
     }
+    //private void dg_SubconList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    //{
+    //    var x = (Subcontractor)dg_SubconList.SelectedItem;
+    //    MessageBox.Show(x.FirstName + " " + x.LastName);
+    //}
+
 }
+
