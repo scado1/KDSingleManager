@@ -14,6 +14,9 @@ namespace KDSingleManager
         public DbSet<Skladka> Skladki { get; set; }
         public DbSet<Przejscie> Przejscia { get; set; }
         public DbSet<ESkladka> ESkladki { get; set; }
+        public DbSet<Mikrorachunek> Mikrorachunki { get; set; }
+        public DbSet<WynagrKonto> WynagrKonta { get; set; }
+
 
         protected override void OnConfiguring(
             DbContextOptionsBuilder optionsBuilder)

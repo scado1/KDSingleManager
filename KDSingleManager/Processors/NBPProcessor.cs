@@ -45,7 +45,7 @@ namespace KDSingleManager.Processors
                         }
                         else
                         {
-                            dtStr = DateTime.Parse(dtStr).AddDays(-1).ToShortDateString();
+                            dtStr = DateTime.Parse(dtStr).AddDays(-1).ToString("yyyy-MM-dd");
                         }
                     }
                 }

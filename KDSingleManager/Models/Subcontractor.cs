@@ -16,6 +16,11 @@ namespace KDSingleManager.Models
         public virtual ICollection<Przejscie> Przejscia { get; set; } = new ObservableCollection<Przejscie>();
         public virtual ICollection<Skladka> Skladki { get; set; } = new ObservableCollection<Skladka>();
 
+        //public virtual ESkladka ESkladka { get; set; }
+        //public virtual Mikrorachunek Mikrorachunek { get; set; }
+        public virtual ICollection<WynagrKonto> KontaWynagr { get; set; } = new ObservableCollection<WynagrKonto>();
+
+
         public string FullName => string.Format($"{FirstName} {LastName}");
     }
 

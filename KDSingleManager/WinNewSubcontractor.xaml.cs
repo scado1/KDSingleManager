@@ -46,6 +46,10 @@ namespace KDSingleManager
             _subcontractor = s;
             tb_FirstName.Text = s.FirstName;
             tb_LastName.Text = s.LastName;
+
+            tb_ESkladka.Text = _context.ESkladki.Any(x => x.Subcontractor.Id == s.Id) ? _context.ESkladki.Where(x => x.Subcontractor.Id == s.Id).Select(x => x.Konto).First() : "";
+            tb_Mikrorachunek.Text = _context.Mikrorachunki.Any(x => x.Subcontractor.Id == s.Id) ? _context.Mikrorachunki.Where(x => x.Subcontractor.Id == s.Id).Select(x => x.Konto).First() : "";
+
             dp_Zalozenie.SelectedDate = DateTime.Parse(s.DataZalozenia);
 
             //  subconViewSource.Source = _context.Subcontractors.Local.Where(x => x.Id == s.Id).ToList();
@@ -81,6 +85,27 @@ namespace KDSingleManager
                         NIP = tb_NIP.Text,
                         DataZalozenia = DateTime.Parse(dp_Zalozenie.SelectedDate.ToString()).ToShortDateString()
                     };
+
+                    Mikrorachunek m = new Mikrorachunek()
+                    {
+                        Konto = tb_Mikrorachunek.Text,
+                        Subcontractor = s
+                    };
+                    ESkladka sk = new ESkladka()
+                    {
+                        Konto = tb_ESkladka.Text,
+                        Subcontractor = s
+                    };
+
+                    //s.Mikrorachunek.Konto = tb_Mikrorachunek.Text;
+                    //s.ESkladka.Konto = tb_ESkladka.Text;
+                    s.KontaWynagr.Add(new WynagrKonto { Konto = tb_WynagrKont.Text });
+
+                    _context.ESkladki.Add(sk);
+                    _context.Mikrorachunki.Add(m);
+
+                    _context.WynagrKonta.AddRange(s.KontaWynagr); ///????????
+
                     _context.Subcontractors.Add(s);
                     _context.SaveChanges();
 
@@ -102,6 +127,8 @@ namespace KDSingleManager
             {
                 try
                 {
+                    Mikrorachunek m = _context.Mikrorachunki.Where(x => x.Subcontractor.Id == _subcontractor.Id).First();
+                    ESkladka esk = _context.ESkladki.Where(x => x.Subcontractor.Id == _subcontractor.Id).First();
                     {
                         _subcontractor.FirstName = tb_FirstName.Text;
                         _subcontractor.LastName = tb_LastName.Text;
@@ -115,9 +142,21 @@ namespace KDSingleManager
                         p.PrzejscieNaMaly = DateTime.Parse(dp_przejscieNaMaly.SelectedDate.ToString()).ToShortDateString();
                         p.PrzejscieNaDuzy = DateTime.Parse(dp_przejscieNaDuzy.SelectedDate.ToString()).ToShortDateString();
 
+                        m.Konto = tb_Mikrorachunek.Text;
+                        m.Subcontractor = _subcontractor;
+                        esk.Konto = tb_ESkladka.Text;
+                        esk.Subcontractor = _subcontractor;
+
+                        //_context.ESkladki.Add(esk);
+                        //_context.Mikrorachunki.Add(m);
+
                         _subcontractor.Przejscia.Add(p);
                         _context.Przejscia.Add(p);
                     };
+
+                    _context.Mikrorachunki.Update(m);
+                    _context.ESkladki.Update(esk);
+
                     _context.Subcontractors.Update(_subcontractor);
                     _context.SaveChanges();
 
