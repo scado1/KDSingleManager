@@ -5,7 +5,7 @@ using System.Text;
 
 namespace KDSingleManager.Models
 {
-    public class Skladka
+    public class Skladka : IComponent
     {
         public int Id { get; set; }
         public virtual DefSkladki DefSkladka { get; set; }
@@ -16,5 +16,10 @@ namespace KDSingleManager.Models
         public string Data { get; set; }
         public string Opis { get; set; }
         public decimal Wartość { get; set; }
+
+        public void Accept(IVisitor visitor)
+        {
+            visitor.visit(this);
+        }
     }
 }
