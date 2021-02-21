@@ -7,8 +7,8 @@
         xmlns:ikriv="clr-namespace:System.Windows.Converters;assembly=WindowsBase" Loaded="Window_Loaded"
         Title="WinNewSubcontractor" Height="450" Width="800">
     <Window.Resources>
-        <CollectionViewSource x:Key="defZusViewSource"/>
         <CollectionViewSource x:Key="subconViewSource"/>
+        <CollectionViewSource x:Key="defZusViewSource"/>
         <CollectionViewSource x:Key="defPrzerejestrowanieViewSource" Source="{Binding Przejscia, Source={StaticResource subconViewSource}}"/>
     </Window.Resources>
     <Grid>

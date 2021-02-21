@@ -41,6 +41,14 @@ namespace KDSingleManager
         {
             InitializeComponent();
             _context = MainWindow._context;
+            subconViewSource = (CollectionViewSource)FindResource(nameof(subconViewSource));
+            //       <!-- <CollectionViewSource x:Key="defZusViewSource"/> --> XAML
+
+            _context.DefinicjeSkladek.Load();
+            //defZusViewSource.Source = _context.DefinicjeSkladek.Local.ToObservableCollection();
+            dg_DefSkladek.ItemsSource = _context.DefinicjeSkladek.Local.ToBindingList();
+
+
             btn_AddNewWorker.Content = "Update Worker";
             subconViewSource = (CollectionViewSource)FindResource(nameof(subconViewSource));
             _subcontractor = s;
