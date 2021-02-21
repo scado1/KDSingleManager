@@ -11,7 +11,7 @@ namespace KDSingleManager.Processors
     {
         //   private Subcontractor _subccontractor;
         private AppContext _context;
-        public void AddZus(Subcontractor s)
+        public void AddZus(Subcontractor s, int month, int year)
         {
             _context = MainWindow._context;
             DateTime today = DateTime.Now;
@@ -19,10 +19,10 @@ namespace KDSingleManager.Processors
 
             Skladka skl = new Skladka();
             skl.Data = today.ToShortDateString();
-            skl.ZaOkresYear = today.Year;
-            skl.ZaOkresMonth = today.Month;
+            skl.ZaOkresYear = year;
+            skl.ZaOkresMonth = month;
             ISimpleZUS simpleZUS = new SimpleZUS();
-            IZUS zUS = simpleZUS.AddZUS(s);
+            IZUS zUS = simpleZUS.AddZUS(s, month, year);
 
             skl.DefSkladka = (DefSkladki)zUS;
             skl.Wartość = skl.DefSkladka.GetWartosc();

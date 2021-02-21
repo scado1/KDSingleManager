@@ -9,6 +9,6 @@ namespace KDSingleManager.ZUSY
     {
         public abstract IZUS AddZUS();
         public abstract IZUS AddZUS(string dt);
-        public abstract IZUS AddZUS(Subcontractor s);
+        public abstract IZUS AddZUS(Subcontractor s, int month, int year);
     }
 }

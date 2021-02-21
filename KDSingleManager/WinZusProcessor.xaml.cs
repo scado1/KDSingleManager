@@ -263,8 +263,8 @@ namespace KDSingleManager
             Processor proc = new Processor();
 
 
-            subcontractors.ForEach(s => MessageBox.Show(s.FullName));
-            subcontractors.ForEach(s => proc.AddZus(s));
+            //subcontractors.ForEach(s => MessageBox.Show(s.FullName));
+            subcontractors.ForEach(s => proc.AddZus(s, int.Parse(cb_Months.Text), int.Parse(cb_Years.Text)));
 
         }
 

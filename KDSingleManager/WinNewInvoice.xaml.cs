@@ -1,7 +1,10 @@
 ﻿using KDSingleManager.Models;
 using KDSingleManager.Processors;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -23,6 +26,8 @@ namespace KDSingleManager
     {
         private static AppContext _context = new AppContext();
         private CollectionViewSource subconViewSource;
+
+        private ICollectionView _subconCollectionView;
         private Subcontractor _subcontractor;
         private CollectionViewSource skladkiViewSource;
         private static readonly Regex _regex = new Regex("[^0-9.,-]+");
@@ -31,11 +36,26 @@ namespace KDSingleManager
             InitializeComponent();
             _context = MainWindow._context;
             _subcontractor = s;
+
+            _context.Subcontractors.Load();
+            _context.Skladki.Load();
+
+            _subconCollectionView = CollectionViewSource.GetDefaultView(_subcontractor);
             subconViewSource = (CollectionViewSource)FindResource(nameof(subconViewSource));
+
             subconViewSource.Source = _context.Subcontractors.Local.ToObservableCollection();
+
+            dg_Skladki.ItemsSource = _context.Skladki.Where(x => x.Subcontractor == _subcontractor).ToList();
+            //   subconViewSource.View = _context.Subcontractors.Local.ToObservableCollection().Equals(_subcontractor);
             //_context.Subcontractors.Local.ToObservableCollection();
             skladkiViewSource = (CollectionViewSource)FindResource(nameof(skladkiViewSource));
             this.Title += _subcontractor.FullName;
+        }
+
+        public bool SubconFilter(object item)
+        {
+            Subcontractor subcon = item as Subcontractor;
+            return subcon.Id == _subcontractor.Id;
         }
 
         private async void dp_InvoceDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
