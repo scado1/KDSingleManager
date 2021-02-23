@@ -39,6 +39,7 @@ namespace KDSingleManager
 
             _context.Subcontractors.Load();
             _context.Skladki.Load();
+            _context.Renumerations.Load();
 
             _subconCollectionView = CollectionViewSource.GetDefaultView(_subcontractor);
             subconViewSource = (CollectionViewSource)FindResource(nameof(subconViewSource));
@@ -46,8 +47,7 @@ namespace KDSingleManager
             subconViewSource.Source = _context.Subcontractors.Local.ToObservableCollection();
 
             dg_Skladki.ItemsSource = _context.Skladki.Where(x => x.Subcontractor == _subcontractor).ToList();
-            //   subconViewSource.View = _context.Subcontractors.Local.ToObservableCollection().Equals(_subcontractor);
-            //_context.Subcontractors.Local.ToObservableCollection();
+            dg_Renumerations.ItemsSource = _context.Renumerations.Where(x => x.Subcontractor == _subcontractor).ToList();
             skladkiViewSource = (CollectionViewSource)FindResource(nameof(skladkiViewSource));
             this.Title += _subcontractor.FullName;
         }
@@ -74,7 +74,6 @@ namespace KDSingleManager
             NBPProcessor nbp = new NBPProcessor();
             exR = await nbp.getRate(date);
             return exR;
-
         }
 
         private void btn_Calculate_click(object sender, RoutedEventArgs e)
@@ -83,11 +82,7 @@ namespace KDSingleManager
             {
                 if (!String.IsNullOrWhiteSpace(tb_TotalAmount.Text) && !_regex.IsMatch(tb_TotalAmount.Text))
                 {
-                    var rate = decimal.Parse(cb_TaxRate.SelectedValue.ToString().TrimEnd(new char[] { '%', ' ' })) / 100m;
-
-                    var tax = decimal.Parse(tb_TotalAmount.Text) * rate;
-
-                    MessageBox.Show(tax.ToString("c"));
+                    MessageBox.Show(CalculateTax().ToString("c"));
                 }
                 else
                 {
@@ -101,9 +96,52 @@ namespace KDSingleManager
             }
         }
 
+        private decimal CalculateTax()
+        {
+            decimal tax = decimal.MinValue;
+
+            if (!String.IsNullOrWhiteSpace(tb_TotalAmount.Text) && !_regex.IsMatch(tb_TotalAmount.Text))
+            {
+                var rate = decimal.Parse(cb_TaxRate.SelectedValue.ToString().TrimEnd(new char[] { '%', ' ' })) / 100m;
+
+                tax = decimal.Parse(tb_TotalAmount.Text) * rate;
+
+                //MessageBox.Show(tax.ToString("c"));
+            }
+            else
+            {
+                MessageBox.Show("bad");
+            }
+            return tax;
+        }
+
         private void tb_TotalAmount_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
 
+        }
+
+        private void btn_Save_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Renumeration r = new Renumeration();
+                r.Subcontractor = _subcontractor;
+                r.Data = DateTime.Now.ToShortDateString();
+                r.Opis = tb_InvoiceNr.Text;
+                r.Wartosc = decimal.Parse(tb_TotalAmount.Text);
+                r.Tax = Math.Round(CalculateTax(), 2);
+                r.ZaOkresMoth = DateTime.Parse(dp_IssueDate.SelectedDate.ToString()).Month;
+                r.ZaOkresYear = DateTime.Parse(dp_IssueDate.SelectedDate.ToString()).Year;
+                r.Stan = 0;
+
+                _context.Renumerations.Add(r);
+                _context.SaveChanges();
+                dg_Renumerations.ItemsSource = _context.Renumerations.Where(x => x.Subcontractor == _subcontractor).ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString() + "\n" + ex.InnerException);
+            }
         }
 
         /*Przychód KD:  Faktura BE

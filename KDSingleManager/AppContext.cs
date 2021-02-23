@@ -16,7 +16,7 @@ namespace KDSingleManager
         public DbSet<ESkladka> ESkladki { get; set; }
         public DbSet<Mikrorachunek> Mikrorachunki { get; set; }
         public DbSet<WynagrKonto> WynagrKonta { get; set; }
-
+        public DbSet<Renumeration> Renumerations { get; set; }
 
         protected override void OnConfiguring(
             DbContextOptionsBuilder optionsBuilder)

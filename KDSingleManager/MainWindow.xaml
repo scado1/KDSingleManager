@@ -34,7 +34,7 @@
                 <MenuItem Header="_Invoice">
                     <MenuItem Header="_New Invoice window" Click="NewInvoice_Click"/>
                     <MenuItem Header="_Open" />
-                    <MenuItem Header="_Save" />
+                    <MenuItem Header="_UserControl" Click="UserControl_Click" />
                     <Separator />
                     <MenuItem Header="_Exit" />
                 </MenuItem>

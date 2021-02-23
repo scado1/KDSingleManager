@@ -150,7 +150,7 @@ namespace KDSingleManager
         }
 
         /// <summary>
-        /// Adds single ZUS payment
+        /// Adds single ZUS payment - non active
         /// </summary>
         public void AddZus()
         {
@@ -193,12 +193,11 @@ namespace KDSingleManager
             }
         }
 
+        private void UserControl_Click(object sender, RoutedEventArgs e)
+        {
+            UserControllers uc = new UserControllers();
+            uc.ShowDialog();
+        }
     }
-    //private void dg_SubconList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    //{
-    //    var x = (Subcontractor)dg_SubconList.SelectedItem;
-    //    MessageBox.Show(x.FirstName + " " + x.LastName);
-    //}
-
 }
 
