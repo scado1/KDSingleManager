@@ -199,5 +199,12 @@ namespace KDSingleManager
             uc.ShowDialog();
         }
     }
+    public enum StanRozliczenia
+    {
+        Wprowadzony,
+        Zaplacony,
+        ZaplaconyIDoliczony,
+        PayByHimself
+    }
 }
 

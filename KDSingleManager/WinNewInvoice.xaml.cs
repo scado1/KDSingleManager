@@ -132,9 +132,30 @@ namespace KDSingleManager
                 r.Tax = Math.Round(CalculateTax(), 2);
                 r.ZaOkresMoth = DateTime.Parse(dp_IssueDate.SelectedDate.ToString()).Month;
                 r.ZaOkresYear = DateTime.Parse(dp_IssueDate.SelectedDate.ToString()).Year;
-                r.Stan = 0;
+                r.Stan = (int)StanRozliczenia.Wprowadzony;
 
                 _context.Renumerations.Add(r);
+                _context.SaveChanges();
+                dg_Renumerations.ItemsSource = _context.Renumerations.Where(x => x.Subcontractor == _subcontractor).ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString() + "\n" + ex.InnerException);
+            }
+        }
+
+        private void btn_Pay_Click(object sender, RoutedEventArgs e)
+        {
+            PayTax();
+        }
+        private void PayTax()
+        {
+            try
+            {
+                Renumeration sel = (Renumeration)dg_Renumerations.SelectedItem;
+                sel.Stan = (int)StanRozliczenia.Zaplacony;
+
+                _context.Renumerations.Update(sel);
                 _context.SaveChanges();
                 dg_Renumerations.ItemsSource = _context.Renumerations.Where(x => x.Subcontractor == _subcontractor).ToList();
             }
