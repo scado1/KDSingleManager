@@ -11,7 +11,7 @@
         <CollectionViewSource x:Key="subconViewSource" />
         <CollectionViewSource x:Key="skladkiViewSource" Source="{Binding Skladki, Source={StaticResource subconViewSource}}"/>
     </Window.Resources>
-    <Grid>
+    <Grid Background="LightGray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15"/>
             <ColumnDefinition Width="*"/>
