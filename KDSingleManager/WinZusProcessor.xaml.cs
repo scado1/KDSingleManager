@@ -103,7 +103,9 @@ namespace KDSingleManager
 
                     subcontractors.Add(subcontractor);
 
-                    dataZUS.Add(subcontractor.Id, item[5]);
+
+
+                    //dataZUS.Add(subcontractor.Id, item[5]);
 
                     MessageBox.Show("exists");
                 }

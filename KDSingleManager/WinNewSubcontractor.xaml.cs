@@ -68,11 +68,9 @@ namespace KDSingleManager
 
             _context.Skladki.ToList().ForEach(x => Skladki.Add(x));
 
-
-
-            cb_dg_WynagrKonta.ItemsSource = _context.Skladki.Where(x => x.Subcontractor == _subcontractor).ToList();
-
             //  subconViewSource.Source = _context.Subcontractors.Local.Where(x => x.Id == s.Id).ToList();
+
+            cb_WynagrKont.ItemsSource = _context.WynagrKonta.ToList();
 
         }
 
@@ -123,16 +121,8 @@ namespace KDSingleManager
                         Subcontractor = s
                     };
 
-                    //s.Mikrorachunek.Konto = tb_Mikrorachunek.Text;
-                    //s.ESkladka.Konto = tb_ESkladka.Text;
-                    _context.WynagrKonta.Add((WynagrKonto)cb_dg_WynagrKonta.SelectedItem);
-                    
-                    //s.KontaWynagr.Add(new WynagrKonto { Konto = cb_WynagrKont.Text });
-
                     _context.ESkladki.Add(sk);
                     _context.Mikrorachunki.Add(m);
-
-                    //_context.WynagrKonta.AddRange(s.KontaWynagr); ///????????
 
                     _context.Subcontractors.Add(s);
                     _context.SaveChanges();

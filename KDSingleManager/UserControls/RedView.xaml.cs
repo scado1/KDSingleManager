@@ -89,7 +89,7 @@ namespace KDSingleManager.UserControls
         private readonly Func<string[], WynagrKonto> _parseData = x => new WynagrKonto
         {
             PosiadaczRachunku = x[0].ToString(),
-            Konto = x[1].ToString(),
+            Konto = x[1].ToString()[2..],
             Kraj = x[2].ToString(),
             Swift = x[3].ToString()
         };
