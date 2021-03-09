@@ -15,6 +15,7 @@ namespace KDSingleManager.Models
         //  public virtual ICollection<Skladka> ZUSy { get; set; } = new ObservableCollection<Skladka>();
         public virtual ICollection<Przejscie> Przejscia { get; set; } = new ObservableCollection<Przejscie>();
         public virtual ICollection<Skladka> Skladki { get; set; } = new ObservableCollection<Skladka>();
+        public virtual ICollection<Renumeration> Renumerations { get; set; } = new ObservableCollection<Renumeration>();
 
         //public virtual ESkladka ESkladka { get; set; }
         //public virtual Mikrorachunek Mikrorachunek { get; set; }
