@@ -38,7 +38,16 @@
 
 
             <TextBlock>Konto Wynagr:</TextBlock>
-            <TextBox x:Name="tb_WynagrKont"/>
+
+            <ComboBox x:Name="cb_WynagrKont" DataContext="{Binding Skladki}"  DisplayMemberPath="Wartość" SelectedValuePath="Id">
+                <DataGrid x:Name="cb_dg_WynagrKonta" ItemsSource="{Binding Skladki}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Subcon" Binding="{Binding Id}"/>
+                        <DataGridTextColumn Header="Konto" Binding="{Binding Wartość}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </ComboBox>
+
             <TextBlock>Mikrorachunek:</TextBlock>
             <TextBox x:Name="tb_Mikrorachunek"/>
             <TextBlock>eSkladka:</TextBlock>

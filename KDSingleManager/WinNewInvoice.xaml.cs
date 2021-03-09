@@ -61,7 +61,8 @@ namespace KDSingleManager
         private async void dp_InvoceDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             MessageBox.Show(dp_InvoceDate.SelectedDate.ToString());
-            DateTime selectedDate = DateTime.Parse(dp_InvoceDate.SelectedDate.ToString());
+            DateTime selectedDate = dp_InvoceDate.SelectedDate.Value;
+            //DateTime selectedDate = DateTime.Parse(dp_InvoceDate.SelectedDate.ToString());
             var exR = await GetExRate(selectedDate.ToString());
             tb_ExRate.Text = exR.GetRate().ToString();
             tb_ExRate_date.Text = exR.GetDate();

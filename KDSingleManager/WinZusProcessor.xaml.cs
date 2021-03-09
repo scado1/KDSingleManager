@@ -1,6 +1,7 @@
 ﻿using KDSingleManager.Models;
 using KDSingleManager.Processors;
 using KDSingleManager.ZUSY;
+using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -41,7 +42,9 @@ namespace KDSingleManager
             _context = MainWindow._context;
             GetMonthsYears();
         }
-
+        /// <summary>
+        /// populate comboBox with months and years
+        /// </summary>
         private void GetMonthsYears()
         {
             for (int i = 2018; i < DateTime.Now.Year + 2; i++)
@@ -67,6 +70,13 @@ namespace KDSingleManager
         private void CheckExistanceFromList()
         {
             string fp = Environment.MachineName.ToLower() == "horsh-w10-11" ? @"C:\Users\Horsh\Desktop\Kek\KD Building\ZUS\ZUS_test\ZUS_01_short.csv" : @"C:\Users\dbasa\Desktop\ZUS\ZUSdoZap1.csv";
+
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() == true)
+            {
+                fp = ofd.FileName;
+            }
+            MessageBox.Show(fp);
 
             List<string> recs = new List<string>();
 
@@ -145,7 +155,7 @@ namespace KDSingleManager
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        private string Normalize(string text)
+        public string Normalize(string text)
         {
             var x = text.Replace(" ", "").Replace("ł", "l").Normalize(NormalizationForm.FormD);
             string res = string.Empty;

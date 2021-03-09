@@ -10,5 +10,8 @@ namespace KDSingleManager.Models
         public int Id { get; set; }
         public virtual Subcontractor Subcontractor { get; set; }
         public string Konto { get; set; }
+        public string Swift { get; set; }
+        public string Kraj { get; set; } = "PL";
+        public string PosiadaczRachunku { get; set; }
     }
 }

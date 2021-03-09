@@ -18,7 +18,7 @@ namespace KDSingleManager.Models
 
         //public virtual ESkladka ESkladka { get; set; }
         //public virtual Mikrorachunek Mikrorachunek { get; set; }
-        public virtual ICollection<WynagrKonto> KontaWynagr { get; set; } = new ObservableCollection<WynagrKonto>();
+        //public virtual ICollection<WynagrKonto> KontaWynagr { get; set; } = new ObservableCollection<WynagrKonto>();
 
 
         public string FullName => string.Format($"{FirstName} {LastName}");

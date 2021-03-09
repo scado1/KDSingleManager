@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,9 @@ namespace KDSingleManager
         private Subcontractor _subcontractor;
         private CollectionViewSource defZusViewSource;
         private CollectionViewSource subconViewSource;
+
+        private ObservableCollection<Skladka> _skladka = new ObservableCollection<Skladka>();
+
         public WinNewSubcontractor()
         {
             InitializeComponent();
@@ -60,8 +64,22 @@ namespace KDSingleManager
 
             dp_Zalozenie.SelectedDate = DateTime.Parse(s.DataZalozenia);
 
+
+
+            _context.Skladki.ToList().ForEach(x => Skladki.Add(x));
+
+
+
+            cb_dg_WynagrKonta.ItemsSource = _context.Skladki.Where(x => x.Subcontractor == _subcontractor).ToList();
+
             //  subconViewSource.Source = _context.Subcontractors.Local.Where(x => x.Id == s.Id).ToList();
 
+        }
+
+        public ObservableCollection<Skladka> Skladki
+        {
+            get { return _skladka; }
+            set { _skladka = value; }
         }
 
         #region Button Create/Update
@@ -107,12 +125,14 @@ namespace KDSingleManager
 
                     //s.Mikrorachunek.Konto = tb_Mikrorachunek.Text;
                     //s.ESkladka.Konto = tb_ESkladka.Text;
-                    s.KontaWynagr.Add(new WynagrKonto { Konto = tb_WynagrKont.Text });
+                    _context.WynagrKonta.Add((WynagrKonto)cb_dg_WynagrKonta.SelectedItem);
+                    
+                    //s.KontaWynagr.Add(new WynagrKonto { Konto = cb_WynagrKont.Text });
 
                     _context.ESkladki.Add(sk);
                     _context.Mikrorachunki.Add(m);
 
-                    _context.WynagrKonta.AddRange(s.KontaWynagr); ///????????
+                    //_context.WynagrKonta.AddRange(s.KontaWynagr); ///????????
 
                     _context.Subcontractors.Add(s);
                     _context.SaveChanges();

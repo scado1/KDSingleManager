@@ -6,7 +6,50 @@
              xmlns:local="clr-namespace:KDSingleManager.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Red">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="subconAccountsViewSource"/>
+    </UserControl.Resources>
+    <Grid Background="IndianRed">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="15"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="15"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="15"/>
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="1" Grid.RowSpan="2" Grid.Column="3" Grid.ColumnSpan="2" Padding="10" Margin="20" x:Name="dg_Subcons" ItemsSource="{Binding Source={StaticResource subconAccountsViewSource}}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Subcontractor.FullName}" Width="auto"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Konto}" Width="auto"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Swift}" Width="auto"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Kraj}" Width="auto"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding PosiadaczRachunku}" Width="auto"></DataGridTextColumn>
+            </DataGrid.Columns>
 
+
+        </DataGrid>
+
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="1">
+            <TextBlock>Subcontractor</TextBlock>
+            <ComboBox x:Name="cb_Subcontractor" DisplayMemberPath="FullName" SelectedValue="Id" SelectionChanged="cb_Subcontractor_SelectionChanged"/>
+            <TextBlock>Konto</TextBlock>
+            <TextBox x:Name="tb_Konto" LostFocus="tb_Konto_LostFocus" />
+            <TextBlock>SWIFT</TextBlock>
+            <TextBox x:Name="tb_Swift"></TextBox>
+            <TextBlock>Kraj</TextBlock>
+            <TextBox x:Name="tb_Kraj"></TextBox>
+            <TextBlock>Posiadacz Rachunku</TextBlock>
+            <TextBox x:Name="tb_PosiadaczRachunku"></TextBox>
+
+            <Button x:Name="btn_AddWynagrKonto" Click="btn_AddWynagrKonto_Click" Margin="0,15,0,0">Dodaj Rachunek</Button>
+            <Button x:Name="btn_ImportWynagrKont" Click="btn_ImportWynagrKont_Click" Margin="0,10,0,0">Import Rachunków</Button>
+        </StackPanel>
     </Grid>
 </UserControl>
