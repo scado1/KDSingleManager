@@ -58,21 +58,28 @@ namespace KDSingleManager
             _subcontractor = s;
             tb_FirstName.Text = s.FirstName;
             tb_LastName.Text = s.LastName;
+            tb_NIP.Text = s.NIP;
 
             tb_ESkladka.Text = _context.ESkladki.Any(x => x.Subcontractor.Id == s.Id) ? _context.ESkladki.Where(x => x.Subcontractor.Id == s.Id).Select(x => x.Konto).First() : "";
             tb_Mikrorachunek.Text = _context.Mikrorachunki.Any(x => x.Subcontractor.Id == s.Id) ? _context.Mikrorachunki.Where(x => x.Subcontractor.Id == s.Id).Select(x => x.Konto).First() : "";
 
+            cb_WynagrKont.SelectedValue = _context.WynagrKonta.Where(x => x.Subcontractor.Id == s.Id).Select(x => x.Id).FirstOrDefault();
+
             dp_Zalozenie.SelectedDate = DateTime.Parse(s.DataZalozenia);
 
-
+            if (s.Id != 0)
+            {
+                var Przejscia = _context.Przejscia.Where(x => x.Subcontractor == s).First();
+                dp_przejscieNaMaly.SelectedDate = DateTime.Parse(Przejscia.PrzejscieNaMaly);
+                dp_przejscieNaDuzy.SelectedDate = DateTime.Parse(Przejscia.PrzejscieNaDuzy);
+            }
 
             _context.Skladki.ToList().ForEach(x => Skladki.Add(x));
 
-            //  subconViewSource.Source = _context.Subcontractors.Local.Where(x => x.Id == s.Id).ToList();
-
-            cb_WynagrKont.ItemsSource = _context.WynagrKonta.ToList();
-
+            cb_WynagrKont.ItemsSource = _context.WynagrKonta.OrderBy(x => x.PosiadaczRachunku).ToList();
         }
+
+        private readonly Func<string, string[]> _split = x => x.Split(" ");
 
         public ObservableCollection<Skladka> Skladki
         {
@@ -85,8 +92,6 @@ namespace KDSingleManager
         {
             //TODO
             if (_subcontractor != null && _context.Subcontractors.Any(x => x.Id == _subcontractor.Id))
-            //if (this._subcontractor.Id.ToString() != null && _context.Subcontractors.Any(x => x.Id == _subcontractor.Id))
-            //if (_subcontractor != null)
             {
                 UpdateSubcontractor();
             }
@@ -112,7 +117,7 @@ namespace KDSingleManager
 
                     Mikrorachunek m = new Mikrorachunek()
                     {
-                        Konto = tb_Mikrorachunek.Text,
+                        Konto = tb_Mikrorachunek.Text.Replace(" ", ""),
                         Subcontractor = s
                     };
                     ESkladka sk = new ESkladka()
@@ -121,10 +126,17 @@ namespace KDSingleManager
                         Subcontractor = s
                     };
 
+                    _context.Subcontractors.Add(s);
+                    if (cb_WynagrKont.SelectedItem != null)
+                    {
+                        var KontoWynagr = (WynagrKonto)cb_WynagrKont.SelectedItem;
+                        KontoWynagr.Subcontractor = s;
+                    }
+
                     _context.ESkladki.Add(sk);
                     _context.Mikrorachunki.Add(m);
+                    SavePrzejscia(s);
 
-                    _context.Subcontractors.Add(s);
                     _context.SaveChanges();
 
                     _subcontractor = s;
@@ -145,6 +157,7 @@ namespace KDSingleManager
             {
                 try
                 {
+
                     Mikrorachunek m = _context.Mikrorachunki.Where(x => x.Subcontractor.Id == _subcontractor.Id).First();
                     ESkladka esk = _context.ESkladki.Where(x => x.Subcontractor.Id == _subcontractor.Id).First();
                     {
@@ -174,6 +187,14 @@ namespace KDSingleManager
 
                     _context.Mikrorachunki.Update(m);
                     _context.ESkladki.Update(esk);
+
+                    if (cb_WynagrKont.SelectedItem != null)
+                    {
+                        var KontoWynagr = (WynagrKonto)cb_WynagrKont.SelectedItem;
+                        KontoWynagr.Subcontractor = _subcontractor;
+
+                        _context.WynagrKonta.Update(KontoWynagr);
+                    }
 
                     _context.Subcontractors.Update(_subcontractor);
                     _context.SaveChanges();
@@ -238,16 +259,47 @@ namespace KDSingleManager
 
         private void btn_SavePrzejscie_Click(object sender, RoutedEventArgs e)
         {
+            SavePrzejscia(_subcontractor);
+            //try
+            //{
+            //    Przejscie p = new Przejscie();
+            //    p.Subcontractor = _subcontractor;
+            //    p.PrzejscieNaMaly = DateTime.Parse(dp_przejscieNaMaly.SelectedDate.ToString()).ToShortDateString();
+            //    p.PrzejscieNaDuzy = DateTime.Parse(dp_przejscieNaDuzy.SelectedDate.ToString()).ToShortDateString();
+
+            //    //    var x = _context.Przejscia.Find(p.Subcontractor);
+
+            //    if (!_context.Przejscia.Any(prz => prz.Subcontractor.Id == _subcontractor.Id))
+            //    {
+            //        _context.Przejscia.Add(p);
+            //        _context.SaveChanges();
+            //        MessageBox.Show("changes saved");
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show($"Istnieje zapisz dla {p.Subcontractor.FirstName} {p.Subcontractor.LastName}");
+            //    }
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.ToString());
+            //}
+
+        }
+
+        private void SavePrzejscia(Subcontractor s)
+        {
             try
             {
                 Przejscie p = new Przejscie();
-                p.Subcontractor = _subcontractor;
+                p.Subcontractor = s;
                 p.PrzejscieNaMaly = DateTime.Parse(dp_przejscieNaMaly.SelectedDate.ToString()).ToShortDateString();
                 p.PrzejscieNaDuzy = DateTime.Parse(dp_przejscieNaDuzy.SelectedDate.ToString()).ToShortDateString();
 
                 //    var x = _context.Przejscia.Find(p.Subcontractor);
 
-                if (!_context.Przejscia.Any(prz => prz.Subcontractor.Id == _subcontractor.Id))
+                if (!_context.Przejscia.Any(prz => prz.Subcontractor.Id == s.Id))
                 {
                     _context.Przejscia.Add(p);
                     _context.SaveChanges();
@@ -263,7 +315,6 @@ namespace KDSingleManager
             {
                 MessageBox.Show(ex.ToString());
             }
-
         }
 
         private void tb_NIP_TextChanged(object sender, TextChangedEventArgs e)

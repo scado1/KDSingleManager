@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         xmlns:ikriv="clr-namespace:System.Windows.Converters;assembly=WindowsBase" Loaded="Window_Loaded"
-        Title="WinNewSubcontractor" Height="450" Width="800">
+        Title="WinNewSubcontractor" Height="600" Width="800">
     <Window.Resources>
         <CollectionViewSource x:Key="subconViewSource"/>
         <CollectionViewSource x:Key="defZusViewSource"/>
@@ -39,7 +39,18 @@
 
             <TextBlock>Konto Wynagr:</TextBlock>
 
-            <ComboBox x:Name="cb_WynagrKont" DisplayMemberPath="Konto" SelectedValuePath="Id"/>
+            <!--<ComboBox x:Name="cb_WynagrKont" DisplayMemberPath="Konto" SelectedValuePath="Id"/>-->
+
+            <ComboBox Name="cb_WynagrKont" SelectedValuePath="Id" IsTextSearchEnabled="True" TextSearch.TextPath="PosiadaczRachunku">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                <Run Text="{Binding PosiadaczRachunku}" />
+                <Run Text="{Binding Konto}" />
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
 
             <TextBlock>Mikrorachunek:</TextBlock>
             <TextBox x:Name="tb_Mikrorachunek"/>

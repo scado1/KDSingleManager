@@ -81,7 +81,7 @@ namespace KDSingleManager.ZUSY
 
             intendedZUS = _context.DefinicjeSkladek.Where(x => x.Nazwa == nazwa && x.Year == year).FirstOrDefault();
 
-            MessageBox.Show(string.Format($"{intendedZUS.GetWartosc()} {intendedZUS.GetNazwa()}"));
+            //MessageBox.Show(string.Format($"{intendedZUS.GetWartosc()} {intendedZUS.GetNazwa()}"));
             return intendedZUS;
         }
 

@@ -84,6 +84,7 @@ namespace KDSingleManager
             dataFile = content.Replace(" ", "").Replace(".", "").Split("\r\n")
                  .Skip(1)
                  .Select(x => x.Split(";"))
+                 .Where(x => x.Length > 1)
                  .ToList();
 
             List<Subcontractor> _subcontractors = _context.Subcontractors.ToList();
@@ -107,7 +108,7 @@ namespace KDSingleManager
 
                     //dataZUS.Add(subcontractor.Id, item[5]);
 
-                    MessageBox.Show("exists");
+                    //MessageBox.Show("exists");
                 }
                 else
                 {
@@ -175,7 +176,14 @@ namespace KDSingleManager
 
         private void btn_GenerateZUS_Click(object sender, RoutedEventArgs e)
         {
-            string fp = Environment.MachineName.ToLower() == "horsh-w10-11" ? @"C:\Users\Horsh\Desktop\Kek\KD Building\ZUS\ZUS_test\ZUS_01_short.csv" : @"C:\Users\dbasa\Desktop\ZUS\ZUSdoZap1.csv";
+            string fp = string.Empty;
+
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() == true)
+            {
+                fp = ofd.FileName;
+            }
+            MessageBox.Show(fp);
 
             List<string> recs = new List<string>();
             string content = System.IO.File.ReadAllText(fp);
@@ -183,19 +191,40 @@ namespace KDSingleManager
 
             List<Subcontractor> _subcontractors = _context.Subcontractors.ToList();
 
-            // var check ;
-
             var records = content.Replace(" ", "").Replace(".", "").Split("\r\n")
                  .Skip(1)
                  .Select(x => x.Split(";"))
                  .ToList();
 
+
             Processor proc = new Processor();
 
 
             //subcontractors.ForEach(s => MessageBox.Show(s.FullName));
+            List<Skladka> skladki = new List<Skladka>();
+
             subcontractors.ForEach(s => proc.AddZus(s, int.Parse(cb_Months.Text), int.Parse(cb_Years.Text)));
 
+            var skl = _context.Skladki.Where(x => x.ZaOkresMonth == int.Parse(cb_Months.Text)).Where(x => x.ZaOkresYear == int.Parse(cb_Years.Text)).ToList();
+
+            foreach (var item in skl)
+            {
+                skladki.Add(item);
+            }
+            string result = string.Empty;
+            ESkladka eskl = new ESkladka();
+            foreach (var item in skladki)
+            {
+                result += string.Format($"{item.Subcontractor.FirstName};{item.Subcontractor.LastName};{item.Subcontractor.FullName};;{item.Subcontractor.DataZalozenia};{(_context.ESkladki.Where(x => x.Subcontractor == item.Subcontractor).First()).Konto};" +
+                    $"{item.Wartość}{Environment.NewLine}");
+            }
+
+            string sfp = string.Empty;
+            SaveFileDialog sfd = new SaveFileDialog();
+            if (sfd.ShowDialog() == true)
+            {
+                System.IO.File.WriteAllText(sfd.FileName, result, CodePagesEncodingProvider.Instance.GetEncoding(1250));
+            }
         }
     }
 }

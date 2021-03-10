@@ -68,6 +68,14 @@ namespace KDSingleManager
             {
                 Subcontractor w = (Subcontractor)dg_SubconList.SelectedItem;
                 List<Przejscie> przejscia = _context.Przejscia.Where(y => y.Subcontractor.Id == w.Id).ToList();
+
+                if (_context.WynagrKonta.Any(x => x.Subcontractor == w))
+                {
+                    var konto = _context.WynagrKonta.Where(x => x.Subcontractor == w).First();
+                    konto.Subcontractor = null;
+                    _context.WynagrKonta.Update(konto);
+                }
+
                 _context.RemoveRange(przejscia);
                 _context.Subcontractors.Remove(w);
 
