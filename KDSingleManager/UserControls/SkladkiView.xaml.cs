@@ -68,9 +68,9 @@ namespace KDSingleManager.UserControls
 
             IQueryable<Models.Skladka> query = _context.Skladki;
 
-            if (!string.IsNullOrWhiteSpace(cb_Months.SelectedItem.ToString()))
+            if (cb_Months.SelectedItem!= null && cb_Months.SelectionBoxItem.ToString() != "" && !string.IsNullOrEmpty(cb_Months.SelectedItem.ToString()))
             { query = query.Where(x => x.ZaOkresMonth == int.Parse(cb_Months.Text)); }
-            if (!string.IsNullOrWhiteSpace(cb_Years.Text))
+            if (!string.IsNullOrWhiteSpace(cb_Years.Text) && cb_Months.SelectionBoxItem.ToString() != "")
             { query = query.Where(x => x.ZaOkresYear == int.Parse(cb_Years.Text)); }
 
             MessageBox.Show(query.ToString());
