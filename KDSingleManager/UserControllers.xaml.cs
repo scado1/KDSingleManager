@@ -36,5 +36,9 @@ namespace KDSingleManager
         {
             DataContext = new UserControls.OrangeView();
         }
+        private void ZusView_Clicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new UserControls.SkladkiView();
+        }
     }
 }

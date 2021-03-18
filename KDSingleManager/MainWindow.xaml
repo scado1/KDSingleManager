@@ -41,8 +41,8 @@
                 </MenuItem>
                 <Separator/>
                 <MenuItem Header="_ReadZusList">
-                    <MenuItem Header="_Open" Click="btn_mi_OpenZusList_Click" />
-                    <MenuItem Header="_Save" />
+                    <MenuItem Header="_ZUS Processor" Click="btn_mi_OpenZusList_Click" />
+                    <MenuItem Header="_Przelewy bankowe" />
                     <Separator />
                     <MenuItem Header="_Exit" />
                 </MenuItem>
