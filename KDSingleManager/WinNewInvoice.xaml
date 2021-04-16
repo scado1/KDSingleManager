@@ -14,6 +14,7 @@
     <Grid Background="LightGray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15"/>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -33,10 +34,10 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="15"/>
         </Grid.RowDefinitions>
-        <DatePicker x:Name="dp_InvoceDate" Grid.Row="1" Grid.Column="1" Margin="2" SelectedDateChanged="dp_InvoceDate_SelectedDateChanged"/>
-        <TextBox x:Name="tb_ExRate" Grid.Row="2" Grid.Column="1" Margin="2" BorderThickness="2"/>
-        <TextBox x:Name="tb_ExRate_date" Grid.Row="3" Grid.Column="1" Margin="2" BorderThickness="2"/>
-        <StackPanel Grid.Column="1" Grid.Row="4" Grid.RowSpan="5" Orientation="Vertical" Margin="2">
+        <DatePicker x:Name="dp_InvoceDate" Grid.Row="1" Grid.Column="2" Margin="2" SelectedDateChanged="dp_InvoceDate_SelectedDateChanged"/>
+        <TextBox x:Name="tb_ExRate" Grid.Row="2" Grid.Column="2" Margin="2" BorderThickness="2"/>
+        <TextBox x:Name="tb_ExRate_date" Grid.Row="3" Grid.Column="2" Margin="2" BorderThickness="2"/>
+        <StackPanel Grid.Column="2" Grid.Row="4" Grid.RowSpan="5" Orientation="Vertical" Margin="2">
             <TextBlock Text="Data wystawienia"/>
             <DatePicker x:Name="dp_IssueDate" Margin="0,5,0,5" BorderThickness="1"></DatePicker>
             <TextBlock Text="Numer faktury"/>
@@ -52,9 +53,12 @@
             <Button x:Name="btn_Save" Margin="0,5,0,0" Click="btn_Save_Click">Zapisz</Button>
             <Button x:Name="btn_Pay" Margin="0,5,0,0" Click="btn_Pay_Click">Zapłac!</Button>
         </StackPanel>
-        <TextBlock Grid.Column="1" Grid.Row="9" x:Name="tb_Podatek"/>
+        <TextBlock Grid.Column="2" Grid.Row="9" x:Name="tb_Podatek"/>
 
-        <DataGrid x:Name="dg_Skladki" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2" AutoGenerateColumns="False">
+        <ListBox x:Name="lb_Subcons" Grid.Row="1" Grid.RowSpan="9" Grid.Column="1"
+                 ItemsSource="{Binding Source={StaticResource subconViewSource}}" SelectionChanged="lb_Subcons_SelectionChanged" />
+
+        <DataGrid x:Name="dg_Skladki" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="IdSubc" Binding="{Binding Subcontractor.Id}"/>
@@ -67,7 +71,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid x:Name="dg_Renumerations" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2">
+        <DataGrid x:Name="dg_Renumerations" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2">
             
         </DataGrid>
     </Grid>

@@ -14,6 +14,7 @@
             <ColumnDefinition Width="15"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="25"/>
             <ColumnDefinition Width="15"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -21,6 +22,7 @@
             <RowDefinition Height="25"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="15"/>
         </Grid.RowDefinitions>
 
@@ -36,5 +38,8 @@
                 <DataGridTextColumn Binding="{Binding Subcontractor.FullName}"/>
             </DataGrid.Columns>
         </DataGrid>
+
+        <TextBox x:Name="tb_SumOfContributions" Grid.Column="1" Grid.Row="4"/>
+
     </Grid>
 </UserControl>

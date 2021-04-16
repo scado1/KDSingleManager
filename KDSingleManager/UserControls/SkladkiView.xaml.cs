@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using KDSingleManager.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,13 +69,15 @@ namespace KDSingleManager.UserControls
 
             IQueryable<Models.Skladka> query = _context.Skladki;
 
-            if (cb_Months.SelectedItem!= null && cb_Months.SelectionBoxItem.ToString() != "" && !string.IsNullOrEmpty(cb_Months.SelectedItem.ToString()))
+            if (cb_Months.SelectedItem != null && cb_Months.SelectionBoxItem.ToString() != "" && !string.IsNullOrEmpty(cb_Months.SelectedItem.ToString()))
             { query = query.Where(x => x.ZaOkresMonth == int.Parse(cb_Months.Text)); }
             if (!string.IsNullOrWhiteSpace(cb_Years.Text) && cb_Months.SelectionBoxItem.ToString() != "")
             { query = query.Where(x => x.ZaOkresYear == int.Parse(cb_Years.Text)); }
 
             MessageBox.Show(query.ToString());
             db_ZusList.ItemsSource = await query.ToListAsync();
+
+
             //MessageBox.Show(cb_Months.Text.ToString());
 
         }
@@ -82,6 +85,14 @@ namespace KDSingleManager.UserControls
         private async void cb_Date_SelectionChanged(object sender, EventArgs e)
         {
             await UpdateQuery();
+            //decimal total = 0m;
+            //foreach (Skladka item in db_ZusList.Items)
+            //{
+            //    total += ((Skladka)item).Wartość;
+            //}
+
+
+            tb_SumOfContributions.Text = "100";
         }
     }
 }

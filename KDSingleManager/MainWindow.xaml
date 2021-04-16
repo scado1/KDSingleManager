@@ -23,29 +23,30 @@
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="18"/>
             <RowDefinition Height="187*"/>
             <RowDefinition Height="180*"/>
             <RowDefinition Height="180*"/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Column="1" Grid.Row="1">
+        <DockPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_Invoice">
                     <MenuItem Header="_New Invoice window" Click="NewInvoice_Click"/>
                     <MenuItem Header="_Open" />
-                    <MenuItem Header="_UserControl" Click="UserControl_Click" />
                     <Separator />
                     <MenuItem Header="_Exit" />
                 </MenuItem>
                 <Separator/>
                 <MenuItem Header="_ReadZusList">
-                    <MenuItem Header="_ZUS Processor" Click="btn_mi_OpenZusList_Click" />
+                    <MenuItem Header="_Import składek" Click="btn_mi_OpenZusList_Click" />
                     <MenuItem Header="_Przelewy bankowe" />
                     <Separator />
                     <MenuItem Header="_Exit" />
                 </MenuItem>
+                <Separator/>
+                <MenuItem Header="_UserControl" Click="UserControl_Click" />
             </Menu>
         </DockPanel>
         <StackPanel Grid.Column="1" Grid.Row="2" Margin="10,10,10,10" Orientation="Vertical" OpacityMask="#FF174172" Background="#FFC9C7C7">

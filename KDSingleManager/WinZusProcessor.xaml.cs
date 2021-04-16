@@ -103,7 +103,7 @@ namespace KDSingleManager
                        && (Normalize(x.FirstName.ToLower()).Contains(Normalize(item[1].ToLower())) || Normalize(x.LastName.ToLower()).Contains(Normalize(item[1].ToLower()))))).First();
 
                     subcontractors.Add(subcontractor);
-                    if (item.Length > 4)
+                    if (item.Length > 5)
                     {
                         if (!string.IsNullOrWhiteSpace(item[5]))
                             dataZUS.Add(subcontractor.Id, item[5]);
@@ -129,7 +129,7 @@ namespace KDSingleManager
 
                         subcontractors.Add(s);
 
-                        if (item.Length > 4)
+                        if (item.Length > 5)
                         {
                             if (!string.IsNullOrWhiteSpace(item[5]))
                                 dataZUS.Add(s.Id, item[5]);

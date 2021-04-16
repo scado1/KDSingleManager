@@ -36,7 +36,11 @@ namespace KDSingleManager
             InitializeComponent();
             _context = MainWindow._context;
             _subcontractor = s;
+            Initialize();
+        }
 
+        private void Initialize()
+        {
             _context.Subcontractors.Load();
             _context.Skladki.Load();
             _context.Renumerations.Load();
@@ -45,11 +49,13 @@ namespace KDSingleManager
             subconViewSource = (CollectionViewSource)FindResource(nameof(subconViewSource));
 
             subconViewSource.Source = _context.Subcontractors.Local.ToObservableCollection();
+            lb_Subcons.DisplayMemberPath = "FullName";
 
             dg_Skladki.ItemsSource = _context.Skladki.Where(x => x.Subcontractor == _subcontractor).ToList();
             dg_Renumerations.ItemsSource = _context.Renumerations.Where(x => x.Subcontractor == _subcontractor).ToList();
             skladkiViewSource = (CollectionViewSource)FindResource(nameof(skladkiViewSource));
-            this.Title += _subcontractor.FullName;
+            this.Title = _subcontractor.FullName;
+
         }
 
         public bool SubconFilter(object item)
@@ -164,6 +170,12 @@ namespace KDSingleManager
             {
                 MessageBox.Show(ex.ToString() + "\n" + ex.InnerException);
             }
+        }
+
+        private void lb_Subcons_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _subcontractor = (Subcontractor)lb_Subcons.SelectedItem;
+            Initialize();
         }
 
         /*Przychód KD:  Faktura BE
