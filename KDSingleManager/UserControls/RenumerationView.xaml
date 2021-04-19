@@ -15,8 +15,9 @@
                   ItemsSource="{Binding Source={StaticResource RenumerationViewSource}}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Podwykonawca" Width="250" Binding="{Binding Subcontractor.FullName}"/>
-                <DataGridTextColumn Header="Na mały" Width="200" Binding="{Binding PrzejscieNaMaly}"/>
-                <DataGridTextColumn Header="Na duży" Width="200" Binding="{Binding PrzejscieNaDuzy}"/>
+                <DataGridTextColumn Header="Zalożenie DG" Width="175" Binding="{Binding Subcontractor.DataZalozenia}"/>
+                <DataGridTextColumn Header="Na mały" Width="175" Binding="{Binding PrzejscieNaMaly}"/>
+                <DataGridTextColumn Header="Na duży" Width="175" Binding="{Binding PrzejscieNaDuzy}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
