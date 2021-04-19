@@ -40,5 +40,15 @@ namespace KDSingleManager
         {
             DataContext = new UserControls.SkladkiView();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RenumerationView_Clicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new UserControls.RenumerationView();
+        }
     }
 }

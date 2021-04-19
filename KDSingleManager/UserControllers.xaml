@@ -21,6 +21,11 @@
         <DataTemplate x:Name="zusViewTemplate" DataType="{x:Type viewmodels:ZusViewModel}">
             <views:OrangeView DataContext="{Binding}"/>
         </DataTemplate>
+        <DataTemplate x:Name="renumViewTemplate" DataType="{x:Type viewmodels:RenumerationViewModel}">
+            <views:RenumerationView DataContext="{Binding}"/>
+        </DataTemplate>
+  
+
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -44,10 +49,11 @@
                 <Button Content="Lista Podwykonawców" Click="BlueView_Clicked"/>
                 <Button Content="Orange View" Click="OrangeView_Clicked"/>
                 <Button Content="Zus View" Click="ZusView_Clicked"/>
+                <Button Content="Rachunki PLN" Click="RenumerationView_Clicked"/>
             </StackPanel>
         </DockPanel>
 
 
         <ContentControl Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="5" Content="{Binding}"/>
-    </Grid>
+            </Grid>
 </Window>
