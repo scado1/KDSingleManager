@@ -222,11 +222,14 @@ namespace KDSingleManager
                 }
                 string result = string.Empty;
                 ESkladka eskl = new ESkladka();
-                foreach (var item in skladki)
-                {
-                    result += string.Format($"{item.Subcontractor.FirstName};{item.Subcontractor.LastName};{item.Subcontractor.FullName};{item.Subcontractor.NIP};{item.Subcontractor.DataZalozenia};{(_context.ESkladki.Where(x => x.Subcontractor == item.Subcontractor).First()).Konto};" +
-                        $"{item.Wartość}{Environment.NewLine}");
-                }
+
+                skladki.ForEach(s => result += GetPaymentInfo(s));
+
+                //foreach (var item in skladki)
+                //{
+                //    result += string.Format($"{item.Subcontractor.FirstName};{item.Subcontractor.LastName};{item.Subcontractor.FullName};{item.Subcontractor.NIP};{item.Subcontractor.DataZalozenia};{(_context.ESkladki.Where(x => x.Subcontractor == item.Subcontractor).First()).Konto};" +
+                //        $"{item.Wartość}{Environment.NewLine}");
+                //}
 
                 string sfp = string.Empty;
                 SaveFileDialog sfd = new SaveFileDialog();
@@ -239,6 +242,13 @@ namespace KDSingleManager
             {
                 MessageBox.Show(ex.ToString() + "\r\n" + ex.InnerException);
             }
+        }
+
+        public string GetPaymentInfo(Skladka skl)
+        {
+            string result = string.Empty;
+            result = $@"110,{(DateTime.Today.ToString("yyyyMMdd"))},{(int)(skl.Wartość*100)},11401140,0,""70114011400000354247001001"",""{(_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto}"",{skl.Subcontractor.FullName}||"",""ZAKŁAD UBEZPIECZEŃ SPOŁECZNYCH"",0,{((_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto.Substring(2, 8))},""{skl.Subcontractor.NIP}|{skl.Subcontractor.FullName}|S{string.Format($"{cb_Years.Text}{cb_Months.Text}")}01|"","""","""",""51"", ""REF:""{Environment.NewLine}";
+            return result;
         }
     }
 }

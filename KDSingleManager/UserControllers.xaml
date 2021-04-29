@@ -49,7 +49,7 @@
                 <Button Content="Lista Podwykonawców" Click="BlueView_Clicked"/>
                 <Button Content="Orange View" Click="OrangeView_Clicked"/>
                 <Button Content="Zus View" Click="ZusView_Clicked"/>
-                <Button Content="Rachunki PLN" Click="RenumerationView_Clicked"/>
+                <Button Content="Przejscia ZUS" Click="RenumerationView_Clicked"/>
             </StackPanel>
         </DockPanel>
 
