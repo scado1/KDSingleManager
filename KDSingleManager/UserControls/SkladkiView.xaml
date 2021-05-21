@@ -36,6 +36,7 @@
         <DataGrid x:Name="db_ZusList" Grid.Row="2" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="10">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Subcontractor.FullName}"/>
+                <DataGridTextColumn Binding="{Binding Subcontractor.NIP}"/>
             </DataGrid.Columns>
         </DataGrid>
 

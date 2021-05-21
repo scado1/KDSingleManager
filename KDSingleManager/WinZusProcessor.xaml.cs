@@ -30,7 +30,7 @@ namespace KDSingleManager
 
         List<string[]> dataFile = new List<string[]>();
 
-
+        string fp = string.Empty;
 
         List<Subcontractor> subcontractors = new List<Subcontractor>();
         Dictionary<int, string> dataZUS = new Dictionary<int, string>();
@@ -69,7 +69,7 @@ namespace KDSingleManager
 
         private void CheckExistanceFromList()
         {
-            string fp = Environment.MachineName.ToLower() == "horsh-w10-11" ? @"C:\Users\Horsh\Desktop\Kek\KD Building\ZUS\ZUS_test\ZUS_01_short.csv" : @"C:\Users\dbasa\Desktop\ZUS\ZUSdoZap1.csv";
+            fp = Environment.MachineName.ToLower() == "horsh-w10-11" ? @"C:\Users\Horsh\Desktop\Kek\KD Building\ZUS\ZUS_test\ZUS_01_short.csv" : @"C:\Users\dbasa\Desktop\ZUS\ZUSdoZap1.csv";
 
             OpenFileDialog ofd = new OpenFileDialog();
             if (ofd.ShowDialog() == true)
@@ -186,10 +186,13 @@ namespace KDSingleManager
 
             try
             {
-                OpenFileDialog ofd = new OpenFileDialog();
-                if (ofd.ShowDialog() == true)
+                if (fp == string.Empty)
                 {
-                    fp = ofd.FileName;
+                    OpenFileDialog ofd = new OpenFileDialog();
+                    if (ofd.ShowDialog() == true)
+                    {
+                        fp = ofd.FileName;
+                    }
                 }
                 MessageBox.Show(fp);
 
@@ -225,12 +228,6 @@ namespace KDSingleManager
 
                 skladki.ForEach(s => result += GetPaymentInfo(s));
 
-                //foreach (var item in skladki)
-                //{
-                //    result += string.Format($"{item.Subcontractor.FirstName};{item.Subcontractor.LastName};{item.Subcontractor.FullName};{item.Subcontractor.NIP};{item.Subcontractor.DataZalozenia};{(_context.ESkladki.Where(x => x.Subcontractor == item.Subcontractor).First()).Konto};" +
-                //        $"{item.Wartość}{Environment.NewLine}");
-                //}
-
                 string sfp = string.Empty;
                 SaveFileDialog sfd = new SaveFileDialog();
                 if (sfd.ShowDialog() == true)
@@ -247,7 +244,7 @@ namespace KDSingleManager
         public string GetPaymentInfo(Skladka skl)
         {
             string result = string.Empty;
-            result = $@"110,{(DateTime.Today.ToString("yyyyMMdd"))},{(int)(skl.Wartość*100)},11401140,0,""70114011400000354247001001"",""{(_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto}"",{skl.Subcontractor.FullName}||"",""ZAKŁAD UBEZPIECZEŃ SPOŁECZNYCH"",0,{((_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto.Substring(2, 8))},""{skl.Subcontractor.NIP}|{skl.Subcontractor.FullName}|S{string.Format($"{cb_Years.Text}{cb_Months.Text}")}01|"","""","""",""51"", ""REF:""{Environment.NewLine}";
+            result = $@"110,{(DateTime.Today.ToString("yyyyMMdd"))},{(int)(skl.Wartość * 100)},11401140,0,""70114011400000354247001001"",""{(_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto}"",{skl.Subcontractor.FullName}||"",""ZAKŁAD UBEZPIECZEŃ SPOŁECZNYCH"",0,{((_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto.Substring(2, 8))},""{skl.Subcontractor.NIP}|{skl.Subcontractor.FullName}|S{string.Format($"{cb_Years.Text}{cb_Months.Text}")}01|"","""","""",""51"", ""REF:""{Environment.NewLine}";
             return result;
         }
     }

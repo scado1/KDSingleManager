@@ -11,10 +11,35 @@
         <CollectionViewSource x:Key="RenumerationViewSource"/>
     </UserControl.Resources>
     <Grid>
-        <DataGrid Padding="10" Margin="20" x:Name="dg_Subcons" AlternatingRowBackground="Silver" AutoGenerateColumns="False"
+        <DataGridCell>
+            <Style x:Name="MyDataGridCell" TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="Red"/>
+                        <Setter Property="Foreground" Value="White"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </DataGridCell>
+        <DataGrid  Padding="10" Margin="20" x:Name="dg_Subcons" AlternatingRowBackground="Silver" AutoGenerateColumns="False" ClipboardCopyMode="IncludeHeader"
                   ItemsSource="{Binding Source={StaticResource RenumerationViewSource}}">
+
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Style.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
+
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Podwykonawca" Width="250" Binding="{Binding Subcontractor.FullName}"/>
+                <DataGridTextColumn Header="NIP" Width="175" Binding="{Binding Subcontractor.NIP}"/>
                 <DataGridTextColumn Header="Zalożenie DG" Width="175" Binding="{Binding Subcontractor.DataZalozenia}"/>
                 <DataGridTextColumn Header="Na mały" Width="175" Binding="{Binding PrzejscieNaMaly}"/>
                 <DataGridTextColumn Header="Na duży" Width="175" Binding="{Binding PrzejscieNaDuzy}"/>
