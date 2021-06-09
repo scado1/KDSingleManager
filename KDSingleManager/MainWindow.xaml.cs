@@ -204,7 +204,7 @@ namespace KDSingleManager
         private void UserControl_Click(object sender, RoutedEventArgs e)
         {
             UserControllers uc = new UserControllers();
-            uc.ShowDialog();
+            uc.Show();
         }
     }
     public enum StanRozliczenia

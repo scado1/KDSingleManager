@@ -74,7 +74,7 @@ namespace KDSingleManager.UserControls
             if (!string.IsNullOrWhiteSpace(cb_Years.Text) && cb_Months.SelectionBoxItem.ToString() != "")
             { query = query.Where(x => x.ZaOkresYear == int.Parse(cb_Years.Text)); }
 
-            MessageBox.Show(query.ToString());
+            //MessageBox.Show(query.ToString());
             db_ZusList.ItemsSource = await query.ToListAsync();
 
 
@@ -93,6 +93,13 @@ namespace KDSingleManager.UserControls
 
 
             tb_SumOfContributions.Text = "100";
+        }
+
+        private void db_ZusList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var s = ((Skladka)db_ZusList.SelectedItem).Subcontractor;
+            WinNewSubcontractor wns = new WinNewSubcontractor(s);
+            wns.Show();
         }
     }
 }
