@@ -62,6 +62,10 @@ namespace KDSingleManager.UserControls
             }
             cb_Months.Items.Add(new ComboBoxItem() { Content = null, Height = 20 });
         }
+        /// <summary>
+        /// Wysłanie zapytania do DB z nowymi parametrami, populacji db_ZusList
+        /// </summary>
+        /// <returns></returns>
         private async Task UpdateQuery()
         {
             int res = 0;
@@ -76,23 +80,20 @@ namespace KDSingleManager.UserControls
 
             //MessageBox.Show(query.ToString());
             db_ZusList.ItemsSource = await query.ToListAsync();
-
-
             //MessageBox.Show(cb_Months.Text.ToString());
-
         }
 
         private async void cb_Date_SelectionChanged(object sender, EventArgs e)
         {
             await UpdateQuery();
-            //decimal total = 0m;
-            //foreach (Skladka item in db_ZusList.Items)
-            //{
-            //    total += ((Skladka)item).Wartość;
-            //}
 
+            var total = 0m;
+            foreach (Skladka item in db_ZusList.Items)
+            {
+                total += item.Wartość;
+            }
 
-            tb_SumOfContributions.Text = "100";
+            tb_SumOfContributions.Text = string.Format($"{db_ZusList.Items.Count} - {total:c2}");
         }
 
         private void db_ZusList_MouseDoubleClick(object sender, MouseButtonEventArgs e)

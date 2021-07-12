@@ -33,10 +33,12 @@
 
         </StackPanel>
 
-        <DataGrid x:Name="db_ZusList" Grid.Row="2" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" IsTextSearchEnabled="True" IsReadOnly="True" MouseDoubleClick="db_ZusList_MouseDoubleClick">
+        <DataGrid x:Name="db_ZusList" Grid.Row="2" Grid.RowSpan="2" AutoGenerateColumns="False" Grid.Column="1" ClipboardCopyMode="IncludeHeader" Grid.ColumnSpan="2" Margin="10" IsTextSearchEnabled="True" IsReadOnly="True" MouseDoubleClick="db_ZusList_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Subcontractor.FullName}"/>
-                <DataGridTextColumn Binding="{Binding Subcontractor.NIP}"/>
+                <DataGridTextColumn Header="Lp." Width="10"/>
+                <DataGridTextColumn Binding="{Binding Subcontractor.FullName}" Header="FullName" Width="*"/>
+                <DataGridTextColumn Header="NIP" Binding="{Binding Subcontractor.NIP}" Width="*"/>
+                <DataGridTextColumn Header="Paid" Binding="{Binding Wartość}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 
