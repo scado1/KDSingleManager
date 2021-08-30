@@ -33,7 +33,7 @@
         <ComboBox x:Name="cb_Subcons" Grid.Row="1" Grid.Column="3" Margin="2"/>
         <Button x:Name="btn_addSingleContribution" Grid.Row="2" Grid.Column="3" Margin="2" Click="btn_addSingleContribution_Click" Content="Dodaj 1 składkę dla ↑"/>
 
-        <Button x:Name="btn_ProcessZUS" Click="btn_ProcessZUS_Click" Grid.Row="6" Grid.Column="2" Margin="2">Check if exists</Button>
+        <Button x:Name="btn_CheckExistanceZUS" Click="btn_CheckExistanceZUS_Click" Grid.Row="6" Grid.Column="2" Margin="2">Check if exists</Button>
 
         <Button x:Name="btn_GenerateZUS" Click="btn_GenerateZUS_Click" Grid.Row="6" Grid.Column="3" Margin="2" IsCancel="True">Generate ZUS</Button>
 
