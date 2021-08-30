@@ -91,7 +91,7 @@ namespace KDSingleManager
         private void btn_AddNewWorker_Click(object sender, RoutedEventArgs e)
         {
             //TODO
-            if (_subcontractor != null && _context.Subcontractors.Any(x => x.Id == _subcontractor.Id))
+            if (_subcontractor != null && _subcontractor.Id != 0 && _context.Subcontractors.Any(x => x.Id == _subcontractor.Id))
             {
                 UpdateSubcontractor();
             }
@@ -126,7 +126,8 @@ namespace KDSingleManager
                         Subcontractor = s
                     };
 
-                    _context.Subcontractors.Add(s);
+                    _context.Subcontractors.Add(s).Reload();
+
                     if (cb_WynagrKont.SelectedItem != null)
                     {
                         var KontoWynagr = (WynagrKonto)cb_WynagrKont.SelectedItem;
@@ -138,6 +139,8 @@ namespace KDSingleManager
                     SavePrzejscia(s);
 
                     _context.SaveChanges();
+
+                    _context.Entry(s).Reload();
 
                     _subcontractor = s;
                     MessageBox.Show($"{s.FullName} was created successfuly");

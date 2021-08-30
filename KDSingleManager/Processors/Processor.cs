@@ -11,6 +11,13 @@ namespace KDSingleManager.Processors
     {
         //   private Subcontractor _subccontractor;
         private AppContext _context;
+
+        /// <summary>
+        /// Factory method: add new record(renumeration) to DB
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="month"></param>
+        /// <param name="year"></param>
         public void AddZus(Subcontractor s, int month, int year)
         {
             _context = MainWindow._context;
