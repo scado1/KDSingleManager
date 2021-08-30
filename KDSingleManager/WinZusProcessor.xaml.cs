@@ -63,13 +63,16 @@ namespace KDSingleManager
                 cb_Months.Items.Add(m);
             }
         }
+        /// <summary>
+        /// populates comboBox with subcontractors fullName
+        /// </summary>
         private void GetSubcons()
         {
             cb_Subcons.ItemsSource = _context.Subcontractors.Local.OrderBy(x => x.LastName).ToList();
             cb_Subcons.DisplayMemberPath = "FullName";
             //cb_Subcons.
         }
-        private void btn_ProcessZUS_Click(object sender, RoutedEventArgs e)
+        private void btn_CheckExistanceZUS_Click(object sender, RoutedEventArgs e)
         {
             CheckExistanceFromList();
         }
