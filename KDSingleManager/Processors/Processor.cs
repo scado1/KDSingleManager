@@ -13,7 +13,7 @@ namespace KDSingleManager.Processors
         private AppContext _context;
 
         /// <summary>
-        /// Factory method: add new record(renumeration) to DB
+        /// Factory method: add new record(contribution) to DB
         /// </summary>
         /// <param name="s"></param>
         /// <param name="month"></param>

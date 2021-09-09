@@ -153,7 +153,26 @@ namespace KDSingleManager
 
         private void btn_Pay_Click(object sender, RoutedEventArgs e)
         {
-            PayTax();
+            //PayTax();
+            CheckTaxes();
+
+        }
+        private void CheckTaxes()
+        {
+            decimal PrzychodBE = decimal.Parse(tb_TotalAmount.Text);
+            Skladka contribution = (Skladka)dg_Skladki.SelectedItem;
+
+            int okres = dp_IssueDate.SelectedDate.Value.Month;
+            Skladka ZUSBiez = _context.Skladki.Where(x => x.Subcontractor == _subcontractor && x.ZaOkresMonth == okres).First();
+
+            var zusPopr51 = contribution.DefSkladka.Get51() * 0.055m;
+            var zusPopr52 = contribution.DefSkladka.Get52() * 0.0775m / 0.09m;
+
+            decimal Income = (PrzychodBE + (ZUSBiez == null ? 0m : ZUSBiez.Wartość) - zusPopr51 - zusPopr52) / (1 - 0.055m);
+            decimal Podatek = (Income - contribution.DefSkladka.Get51()) * 0.055m - (contribution.DefSkladka.Get52() * 0.0775m / 0.09m);
+
+            MessageBox.Show(Income.ToString());
+            MessageBox.Show(Podatek.ToString());
         }
         private void PayTax()
         {

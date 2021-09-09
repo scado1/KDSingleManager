@@ -56,7 +56,7 @@ namespace KDSingleManager.ZUSY
 
             string nazwa = string.Empty;
 
-            var x = ((year - pref.Year) * 12) + month - pref.Month;
+            //var x = ((year - pref.Year) * 12) + month - pref.Month;
 
 
             if (OkresZUS > duzy || (year == duzy.Year && month == duzy.Month))

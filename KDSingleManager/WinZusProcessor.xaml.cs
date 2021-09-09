@@ -37,6 +37,8 @@ namespace KDSingleManager
         Dictionary<int, string> dataZUS = new Dictionary<int, string>();
 
         List<(int, string)> tDataZus = new List<(int, string)>();
+
+        string result = string.Empty;
         public WinZusProcessor()
         {
             InitializeComponent();
@@ -101,6 +103,12 @@ namespace KDSingleManager
                      .Select(x => x.Split(";"))
                      .ToList();
                 subcontractors.ForEach(s => AddZusPayment(s));
+
+                SaveFileDialog sfd = new SaveFileDialog();
+                if (sfd.ShowDialog() == true)
+                {
+                    File.WriteAllText(sfd.FileName, result, CodePagesEncodingProvider.Instance.GetEncoding(1250));
+                }
             }
             catch (Exception ex)
             {
@@ -235,31 +243,49 @@ namespace KDSingleManager
             proc.AddZus(s, int.Parse(cb_Months.Text), int.Parse(cb_Years.Text));
 
 
-            #region pointless query
-            var skl = _context.Skladki.Where(x => x.ZaOkresMonth == int.Parse(cb_Months.Text)).Where(x => x.ZaOkresYear == int.Parse(cb_Years.Text)).ToList();
+            GetPaymentInfo(s.Skladki.Where(x => x.ZaOkresMonth == int.Parse(cb_Months.Text) && x.ZaOkresYear == int.Parse(cb_Years.Text)).First());
 
-            foreach (var item in skl)
-            {
-                skladki.Add(item);
-            }
-            string result = string.Empty;
-            ESkladka eskl = new ESkladka();
+            #region pointless query
+            //var skl2 = dg_ContentZUS.ItemsSource;
+
+
+            //foreach (Subcontractor item in skl2)
+            //{
+            //    GetPaymentInfo(item.Skladki.Where(x => x.Subcontractor == item && x.ZaOkresMonth == int.Parse(cb_Months.Text) && x.ZaOkresYear == int.Parse(cb_Years.Text)).First());
+            //}
+            //var skl = _context.Skladki.Where(x => x.ZaOkresMonth == int.Parse(cb_Months.Text)).Where(x => x.ZaOkresYear == int.Parse(cb_Years.Text)).ToList();
+
+            //foreach (Skladka item in skl)
+            //{
+            //    //skladki.Add(item);
+            //    result += GetPaymentInfo(item);
+            //}
+            //string result = string.Empty;
+
+            //ESkladka eskl = new ESkladka();
             #endregion
 
-            skladki.ForEach(s => result += GetPaymentInfo(s));
+            //skladki.ForEach(s => result += GetPaymentInfo(s));
 
             //string sfp = string.Empty;
-            SaveFileDialog sfd = new SaveFileDialog();
-            if (sfd.ShowDialog() == true)
-            {
-                File.WriteAllText(sfd.FileName, result, CodePagesEncodingProvider.Instance.GetEncoding(1250));
-            }
+
+            //SaveFileDialog sfd = new SaveFileDialog();
+            //if (sfd.ShowDialog() == true)
+            //{
+            //    File.WriteAllText(sfd.FileName, result, CodePagesEncodingProvider.Instance.GetEncoding(1250));
+            //}
         }
 
         public string GetPaymentInfo(Skladka skl)
         {
-            string result = string.Empty;
-            result = $@"110,{(DateTime.Today.ToString("yyyyMMdd"))},{(int)(skl.Wartość * 100)},11401140,0,""70114011400000354247001001"",""{(_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto}"",{skl.Subcontractor.FullName}||"",""ZAKŁAD UBEZPIECZEŃ SPOŁECZNYCH"",0,{((_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto.Substring(2, 8))},""{skl.Subcontractor.NIP}|{skl.Subcontractor.FullName}|S{string.Format($"{cb_Years.Text}{cb_Months.Text}")}01|"","""","""",""51"", ""REF:""{Environment.NewLine}";
+            //string resultS = string.Empty;
+            //Import to mBank companynet
+            //result = $@"110,{(DateTime.Today.ToString("yyyyMMdd"))},{(int)(skl.Wartość * 100)},11401140,0,""70114011400000354247001001"",""{(_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto}"",{skl.Subcontractor.FullName}||"",""ZAKŁAD UBEZPIECZEŃ SPOŁECZNYCH"",0,{((_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto.Substring(2, 8))},""{skl.Subcontractor.NIP}|{skl.Subcontractor.FullName}|S{string.Format($"{cb_Years.Text}{cb_Months.Text}")}01|"","""","""",""51"", ""REF:""{Environment.NewLine}";
+
+            //Import to Alior
+            result += $@"Zakład Ubezpieczeń Społecznych;{_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).Select(x => x.Konto).FirstOrDefault()};PL;NBPLPLPWXXX;70249000050000453078025525;70249000050000453078025525;{skl.Subcontractor.NIP}|{skl.Subcontractor.FullName}|S{string.Format($"{cb_Years.Text}{cb_Months.Text}")}01;{skl.Wartość};PLN{Environment.NewLine}";
+
+            //{ skl.Subcontractor.FullName}
             return result;
         }
 

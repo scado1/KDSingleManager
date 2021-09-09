@@ -16,6 +16,16 @@ namespace KDSingleManager.Models
         public decimal ZUS52 { get; set; }
         public decimal ZUS53 { get; set; }
 
+        public decimal Get51()
+        {
+            return this.ZUS51;
+        }
+
+        public decimal Get52()
+        {
+            return this.ZUS52;
+        }
+
         public string GetNazwa()
         {
             return this.Nazwa;
