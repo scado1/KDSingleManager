@@ -280,10 +280,10 @@ namespace KDSingleManager
         {
             //string resultS = string.Empty;
             //Import to mBank companynet
-            //result = $@"110,{(DateTime.Today.ToString("yyyyMMdd"))},{(int)(skl.Wartość * 100)},11401140,0,""70114011400000354247001001"",""{(_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto}"",{skl.Subcontractor.FullName}||"",""ZAKŁAD UBEZPIECZEŃ SPOŁECZNYCH"",0,{((_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto.Substring(2, 8))},""{skl.Subcontractor.NIP}|{skl.Subcontractor.FullName}|S{string.Format($"{cb_Years.Text}{cb_Months.Text}")}01|"","""","""",""51"", ""REF:""{Environment.NewLine}";
+            result += $@"110,{(DateTime.Today.ToString("yyyyMMdd"))},{(int)(skl.Wartość * 100)},11401140,0,""36114011400000354247002001"",""{(_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto}"",{skl.Subcontractor.FullName}||"",""ZAKŁAD UBEZPIECZEŃ SPOŁECZNYCH"",0,{((_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto.Substring(2, 8))},""{skl.Subcontractor.NIP}|{skl.Subcontractor.FullName}|S{string.Format($"{cb_Years.Text}{cb_Months.Text}")}01|"","""","""",""51"", ""REF:""{Environment.NewLine}";
 
             //Import to Alior
-            result += $@"Zakład Ubezpieczeń Społecznych;{_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).Select(x => x.Konto).FirstOrDefault()};PL;NBPLPLPWXXX;70249000050000453078025525;70249000050000453078025525;{skl.Subcontractor.NIP}|{skl.Subcontractor.FullName}|S{string.Format($"{cb_Years.Text}{cb_Months.Text}")}01;{skl.Wartość};PLN{Environment.NewLine}";
+            //result += $@"Zakład Ubezpieczeń Społecznych;{_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).Select(x => x.Konto).FirstOrDefault()};PL;NBPLPLPWXXX;70249000050000453078025525;70249000050000453078025525;{skl.Subcontractor.NIP}|{skl.Subcontractor.FullName}|S{string.Format($"{cb_Years.Text}{cb_Months.Text}")}01;{skl.Wartość};PLN{Environment.NewLine}";
 
             //{ skl.Subcontractor.FullName}
             return result;
