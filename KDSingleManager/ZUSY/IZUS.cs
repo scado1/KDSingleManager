@@ -8,6 +8,9 @@ namespace KDSingleManager.ZUSY
     {
         string GetNazwa();
         decimal GetWartosc();
+        decimal Get51();
+        decimal Get52();
+
 
     }
 }

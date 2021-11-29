@@ -5,6 +5,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -36,6 +37,8 @@ namespace KDSingleManager
         Dictionary<int, string> dataZUS = new Dictionary<int, string>();
 
         List<(int, string)> tDataZus = new List<(int, string)>();
+
+        string result = string.Empty;
         public WinZusProcessor()
         {
             InitializeComponent();
@@ -77,14 +80,53 @@ namespace KDSingleManager
             CheckExistanceFromList();
         }
 
+        private void btn_GenerateZUS_Click(object sender, RoutedEventArgs e)
+        {
+            string fp = string.Empty;
+            try
+            {
+                if (fp == string.Empty)
+                {
+                    OpenFileDialog ofd = new OpenFileDialog();
+                    if (ofd.ShowDialog() == true)
+                    {
+                        fp = ofd.FileName;
+                    }
+                }
+                MessageBox.Show(fp);
+
+                List<string> recs = new List<string>();
+                string content = System.IO.File.ReadAllText(fp);
+                List<Subcontractor> _subcontractors = _context.Subcontractors.ToList();
+                List<string[]> records = content.Replace(" ", "").Replace(".", "").Split("\r\n")
+                     .Skip(1)
+                     .Select(x => x.Split(";"))
+                     .ToList();
+                subcontractors.ForEach(s => AddZusPayment(s));
+
+                SaveFileDialog sfd = new SaveFileDialog();
+                if (sfd.ShowDialog() == true)
+                {
+                    File.WriteAllText(sfd.FileName, result, CodePagesEncodingProvider.Instance.GetEncoding(1250));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString() + "\r\n" + ex.InnerException);
+            }
+        }
         private void CheckExistanceFromList()
         {
-            fp = Environment.MachineName.ToLower() == "horsh-w10-11" ? @"C:\Users\Horsh\Desktop\Kek\KD Building\ZUS\ZUS_test\ZUS_01_short.csv" : @"C:\Users\dbasa\Desktop\ZUS\ZUSdoZap1.csv";
+            //fp = Environment.MachineName.ToLower() == "horsh-w10-11" ? @"C:\Users\Horsh\Desktop\Kek\KD Building\ZUS\ZUS_test\ZUS_01_short.csv" : @"C:\Users\dbasa\Desktop\ZUS\ZUSdoZap1.csv";
 
             OpenFileDialog ofd = new OpenFileDialog();
             if (ofd.ShowDialog() == true)
             {
                 fp = ofd.FileName;
+            }
+            else
+            {
+                return;
             }
             MessageBox.Show(fp);
 
@@ -135,14 +177,22 @@ namespace KDSingleManager
                         };
                         WinNewSubcontractor wns = new WinNewSubcontractor(s);
                         wns.ShowDialog();
-                        MessageBox.Show($"{s.FirstName}: {_context.Subcontractors.Any(x => x.NIP == s.NIP)}");
 
-                        subcontractors.Add(s);
+                        _context.SaveChanges();
+                        var test2 = _context.Subcontractors.Local.ToList();
+
+                        MessageBox.Show($"{s.FirstName}: {_context.Subcontractors.Any(x => x.NIP == s.NIP)}\n{s.Id}");
+                        var sId = _context.Subcontractors.Where(x => x.NIP == item[3]).First();
+                        Subcontractor subconTest = _context.Subcontractors.Where(x => x.NIP == s.NIP.ToString()).First();
+                        //                        var sId = _subcontractors.Where(x => x.NIP == item[3] || ((Normalize(x.FirstName.ToLower()).Contains(Normalize(item[2].ToLower())) || Normalize(x.LastName.ToLower()).Contains(Normalize(item[2].ToLower())))
+                        //&& (Normalize(x.FirstName.ToLower()).Contains(Normalize(item[1].ToLower())) || Normalize(x.LastName.ToLower()).Contains(Normalize(item[1].ToLower()))))).First();
+
+                        subcontractors.Add(sId);
 
                         if (item.Length > 5)
                         {
                             if (!string.IsNullOrWhiteSpace(item[5]))
-                                dataZUS.Add(s.Id, item[5]);
+                                dataZUS.Add(sId.Id, item[5]);
                         }
                     }
                     else
@@ -153,21 +203,6 @@ namespace KDSingleManager
             }
             dg_ContentZUS.ItemsSource = subcontractors;
         }
-
-        private void OnClick()
-        {
-
-        }
-
-        //private void CreateSubcontractor(object s)
-        //{
-        //    Thread.Sleep(TimeSpan.FromSeconds(5));
-        //    this.Dispatcher.BeginInvoke(new Action(() =>
-        //    {
-        //        WinNewSubcontractor wns = new WinNewSubcontractor((Subcontractor)s);
-        //        wns.Show();
-        //    }));
-        //}
 
         /// <summary>
         /// Remove Accents/Diacritics from a String
@@ -190,41 +225,16 @@ namespace KDSingleManager
         }
 
 
-        private void btn_GenerateZUS_Click(object sender, RoutedEventArgs e)
-        {
-            string fp = string.Empty;
-            try
-            {
-                if (fp == string.Empty)
-                {
-                    OpenFileDialog ofd = new OpenFileDialog();
-                    if (ofd.ShowDialog() == true)
-                    {
-                        fp = ofd.FileName;
-                    }
-                }
-                MessageBox.Show(fp);
 
-                List<string> recs = new List<string>();
-                string content = System.IO.File.ReadAllText(fp);
-                List<Subcontractor> _subcontractors = _context.Subcontractors.ToList();
-                List<string[]> records = content.Replace(" ", "").Replace(".", "").Split("\r\n")
-                     .Skip(1)
-                     .Select(x => x.Split(";"))
-                     .ToList();
-                subcontractors.ForEach(s => AddZusPayment(s));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString() + "\r\n" + ex.InnerException);
-            }
-        }
 
         private void btn_addSingleContribution_Click(object sender, RoutedEventArgs e)
         {
             AddZusPayment((Subcontractor)cb_Subcons.SelectedItem);
-
         }
+        /// <summary>
+        /// Adds a zus payment for each subcon based on r
+        /// </summary>
+        /// <param name="s"></param>
         private void AddZusPayment(Subcontractor s)
         {
             List<Skladka> skladki = new List<Skladka>();
@@ -232,29 +242,50 @@ namespace KDSingleManager
 
             proc.AddZus(s, int.Parse(cb_Months.Text), int.Parse(cb_Years.Text));
 
-            var skl = _context.Skladki.Where(x => x.ZaOkresMonth == int.Parse(cb_Months.Text)).Where(x => x.ZaOkresYear == int.Parse(cb_Years.Text)).ToList();
 
-            foreach (var item in skl)
-            {
-                skladki.Add(item);
-            }
-            string result = string.Empty;
-            ESkladka eskl = new ESkladka();
+            GetPaymentInfo(s.Skladki.Where(x => x.ZaOkresMonth == int.Parse(cb_Months.Text) && x.ZaOkresYear == int.Parse(cb_Years.Text)).First());
 
-            skladki.ForEach(s => result += GetPaymentInfo(s));
+            #region pointless query
+            //var skl2 = dg_ContentZUS.ItemsSource;
+
+
+            //foreach (Subcontractor item in skl2)
+            //{
+            //    GetPaymentInfo(item.Skladki.Where(x => x.Subcontractor == item && x.ZaOkresMonth == int.Parse(cb_Months.Text) && x.ZaOkresYear == int.Parse(cb_Years.Text)).First());
+            //}
+            //var skl = _context.Skladki.Where(x => x.ZaOkresMonth == int.Parse(cb_Months.Text)).Where(x => x.ZaOkresYear == int.Parse(cb_Years.Text)).ToList();
+
+            //foreach (Skladka item in skl)
+            //{
+            //    //skladki.Add(item);
+            //    result += GetPaymentInfo(item);
+            //}
+            //string result = string.Empty;
+
+            //ESkladka eskl = new ESkladka();
+            #endregion
+
+            //skladki.ForEach(s => result += GetPaymentInfo(s));
 
             //string sfp = string.Empty;
-            SaveFileDialog sfd = new SaveFileDialog();
-            if (sfd.ShowDialog() == true)
-            {
-                File.WriteAllText(sfd.FileName, result, CodePagesEncodingProvider.Instance.GetEncoding(1250));
-            }
+
+            //SaveFileDialog sfd = new SaveFileDialog();
+            //if (sfd.ShowDialog() == true)
+            //{
+            //    File.WriteAllText(sfd.FileName, result, CodePagesEncodingProvider.Instance.GetEncoding(1250));
+            //}
         }
 
         public string GetPaymentInfo(Skladka skl)
         {
-            string result = string.Empty;
-            result = $@"110,{(DateTime.Today.ToString("yyyyMMdd"))},{(int)(skl.Wartość * 100)},11401140,0,""70114011400000354247001001"",""{(_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto}"",{skl.Subcontractor.FullName}||"",""ZAKŁAD UBEZPIECZEŃ SPOŁECZNYCH"",0,{((_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto.Substring(2, 8))},""{skl.Subcontractor.NIP}|{skl.Subcontractor.FullName}|S{string.Format($"{cb_Years.Text}{cb_Months.Text}")}01|"","""","""",""51"", ""REF:""{Environment.NewLine}";
+            //string resultS = string.Empty;
+            //Import to mBank companynet
+            result += $@"110,{(DateTime.Today.ToString("yyyyMMdd"))},{(int)(skl.Wartość * 100)},11401140,0,""36114011400000354247002001"",""{(_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto}"",{skl.Subcontractor.FullName}||"",""ZAKŁAD UBEZPIECZEŃ SPOŁECZNYCH"",0,{((_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).First()).Konto.Substring(2, 8))},""{skl.Subcontractor.NIP}|{skl.Subcontractor.FullName}|S{string.Format($"{cb_Years.Text}{cb_Months.Text}")}01|"","""","""",""51"", ""REF:""{Environment.NewLine}";
+
+            //Import to Alior
+            //result += $@"Zakład Ubezpieczeń Społecznych;{_context.ESkladki.Where(x => x.Subcontractor == skl.Subcontractor).Select(x => x.Konto).FirstOrDefault()};PL;NBPLPLPWXXX;70249000050000453078025525;70249000050000453078025525;{skl.Subcontractor.NIP}|{skl.Subcontractor.FullName}|S{string.Format($"{cb_Years.Text}{cb_Months.Text}")}01;{skl.Wartość};PLN{Environment.NewLine}";
+
+            //{ skl.Subcontractor.FullName}
             return result;
         }
 

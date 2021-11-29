@@ -68,6 +68,9 @@ namespace KDSingleManager
             {
                 Subcontractor w = (Subcontractor)dg_SubconList.SelectedItem;
                 List<Przejscie> przejscia = _context.Przejscia.Where(y => y.Subcontractor.Id == w.Id).ToList();
+                List<ESkladka> esk = _context.ESkladki.Where(y => y.Subcontractor.Id == w.Id).ToList();
+                List<Mikrorachunek> rach = _context.Mikrorachunki.Where(y => y.Subcontractor.Id == w.Id).ToList();
+
 
                 if (_context.WynagrKonta.Any(x => x.Subcontractor == w))
                 {
@@ -76,7 +79,9 @@ namespace KDSingleManager
                     _context.WynagrKonta.Update(konto);
                 }
 
-                _context.RemoveRange(przejscia);
+                _context.Przejscia.RemoveRange(przejscia);
+                _context.ESkladki.RemoveRange(esk);
+                _context.Mikrorachunki.RemoveRange(rach);
                 _context.Subcontractors.Remove(w);
 
                 _context.SaveChanges();
@@ -181,6 +186,11 @@ namespace KDSingleManager
         {
             UserControllers uc = new UserControllers();
             uc.Show();
+        }
+
+        private void dg_Skladki_Sorting(object sender, DataGridSortingEventArgs e)
+        {
+
         }
     }
     public enum StanRozliczenia

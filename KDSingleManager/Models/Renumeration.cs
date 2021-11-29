@@ -20,5 +20,6 @@ namespace KDSingleManager.Models
         {
             visitor.visit(this);
         }
+
     }
 }
