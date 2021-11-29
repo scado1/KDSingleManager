@@ -187,6 +187,11 @@ namespace KDSingleManager
             UserControllers uc = new UserControllers();
             uc.Show();
         }
+
+        private void dg_Skladki_Sorting(object sender, DataGridSortingEventArgs e)
+        {
+
+        }
     }
     public enum StanRozliczenia
     {

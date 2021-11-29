@@ -38,6 +38,7 @@
             </DataGrid.CellStyle>
 
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Width="75" Binding="{Binding Subcontractor.Id}"/>
                 <DataGridTextColumn Header="Podwykonawca" Width="250" Binding="{Binding Subcontractor.FullName}"/>
                 <DataGridTextColumn Header="NIP" Width="175" Binding="{Binding Subcontractor.NIP}"/>
                 <DataGridTextColumn Header="Zalożenie DG" Width="175" Binding="{Binding Subcontractor.DataZalozenia}"/>
