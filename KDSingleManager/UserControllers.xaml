@@ -23,6 +23,9 @@
         </DataTemplate>
         <DataTemplate x:Name="renumViewTemplate" DataType="{x:Type viewmodels:RenumerationViewModel}">
             <views:RenumerationView DataContext="{Binding}"/>
+        </DataTemplate>        
+        <DataTemplate x:Name="ConverterViewTemplate" DataType="{x:Type viewmodels:ConvertToCSVViewModelViewModel}">
+            <views:RenumerationView DataContext="{Binding}"/>
         </DataTemplate>
   
 
@@ -47,9 +50,10 @@
             <StackPanel>
                 <Button Content="Red View" Click="RedView_Clicked"/>
                 <Button Content="Lista Podwykonawców" Click="BlueView_Clicked"/>
-                <Button Content="Orange View" Click="OrangeView_Clicked"/>
+                <Button Content="Wynagrodzenia" Click="OrangeView_Clicked"/>
                 <Button Content="Zus View" Click="ZusView_Clicked"/>
                 <Button Content="Przejscia ZUS" Click="RenumerationView_Clicked"/>
+                <Button Content="Invoice converter" Click="ConverterView_Clicked"/>
             </StackPanel>
         </DockPanel>
 

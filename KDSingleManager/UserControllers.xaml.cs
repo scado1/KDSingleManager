@@ -50,5 +50,10 @@ namespace KDSingleManager
         {
             DataContext = new UserControls.RenumerationView();
         }
+
+        private void ConverterView_Clicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new UserControls.ConvertToCSVView();
+        }
     }
 }
