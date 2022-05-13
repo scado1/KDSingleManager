@@ -21,9 +21,12 @@ namespace KDSingleManager
         protected override void OnConfiguring(
             DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source = kdsingle.db");
+            //optionsBuilder.UseSqlite("Data Source = kdsingle.db");
+            optionsBuilder.UseSqlite("Data Source = \"W:\\KD Building\\Dokumenty żródłowe\\db\\kdsingle.db\"");
             optionsBuilder.UseLazyLoadingProxies();
             base.OnConfiguring(optionsBuilder);
         }
+
+        //var ConnectionString = new SQLiteConnectionStringBuilder() { DataSource = "D:\\Databases\\SQLiteWithEF.db", ForeignKeys = true }.ConnectionString    }, true)
     }
 }
