@@ -6,5 +6,6 @@ namespace KDSingleManager.ViewModels
 {
     public class OrangeViewModel
     {
+           
     }
 }

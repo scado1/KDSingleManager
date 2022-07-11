@@ -27,6 +27,9 @@ namespace KDSingleManager.UserControls
         {
             InitializeComponent();
             _context = MainWindow._context;
+
+            //_context.SWIFTs.Load();
+            dg_Subcons.ItemsSource = _context.SWIFTs.Local.ToObservableCollection();
         }
 
         private void btn_ReadFile_Click(object sender, RoutedEventArgs e)
@@ -73,6 +76,7 @@ namespace KDSingleManager.UserControls
                 {
                     doImportu += prepareRowInfo(item);
                 }
+                var a = 0;
             }
             catch (Exception ex)
             {
@@ -83,6 +87,8 @@ namespace KDSingleManager.UserControls
 
             dg_Subcons.ItemsSource = records;
             SaveFileDialog sfd = new SaveFileDialog();
+            var b = 0;
+
             if (sfd.ShowDialog() == true)
             {
                 System.IO.File.WriteAllText(sfd.FileName, doImportu, CodePagesEncodingProvider.Instance.GetEncoding(1250));
@@ -93,7 +99,16 @@ namespace KDSingleManager.UserControls
         {
             string result = string.Empty;
 
-            result = string.Format($"{row.Name};{row.AccNr.Replace(" ", "")};{row.AccNr[..2]};;70249000050000453078025525;83249000050000460057540205;02/2021;{row.Amount};EUR{Environment.NewLine}");
+            if (row.AccNr.Length < 25)
+            {
+                var a = row.AccNr.Substring(7, 2);
+            }
+
+            var nrSwift = row.AccNr.Length > 26 ?
+                _context.SWIFTs.Where(x => x.kierunek == row.AccNr.Substring(5, 4)).SingleOrDefault():
+                _context.SWIFTs.Where(x => x.kierunek == row.AccNr.Substring(7, 2)).SingleOrDefault();
+
+            result = string.Format($"{row.Name};{row.AccNr.Replace(" ", "")};{row.AccNr[..2]};{(nrSwift != null ? nrSwift.swift : ("brak numeru"))};70249000050000453078025525;83249000050000460057540205;02/2021;{row.Amount};EUR{Environment.NewLine}");
 
             return result;
         }
