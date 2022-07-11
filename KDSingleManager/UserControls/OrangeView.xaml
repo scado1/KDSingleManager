@@ -26,7 +26,7 @@
             <RowDefinition Height="15"/>
         </Grid.RowDefinitions>
         
-        <Button x:Name="btn_ReadFile" Grid.Column="1" Grid.Row="1" Content="" Click="btn_ReadFile_Click" ></Button>
+        <Button x:Name="btn_ReadFile" Grid.Column="1" Grid.Row="1" Content="convert file" Click="btn_ReadFile_Click" ></Button>
         <DataGrid Padding="10" Margin="10" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2" Grid.RowSpan="3" x:Name="dg_Subcons" ItemsSource="{Binding Source={StaticResource paymentViewSource}}">
 
         </DataGrid>
